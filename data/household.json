@@ -1,0 +1,32 @@
+{
+  "version": "0.4",
+  "preferred_stores": {
+    "produce": "H-E-B",
+    "default_comparison_stores": ["H-E-B", "Walmart", "Dollar General"]
+  },
+  "optimization_rules": {
+    "count_only_clipped_coupons": true,
+    "ignore_unverified_prices": true,
+    "minimum_item_switch_savings": 1.0,
+    "minimum_basket_switch_savings": 5.0,
+    "use_quantity_impact": true
+  },
+  "known_items": [
+    {"name":"Fancy Feast Medleys Primavera dry cat food","size":"6.5 lb","last_store":"H-E-B","last_price":21.68,"usual_qty":2,"category":"pet"},
+    {"name":"Fancy Feast Classic wet cat food","size":"receipt variant","last_store":"H-E-B","last_price":18.24,"usual_qty":1,"category":"pet"},
+    {"name":"Tide + Downy April Fresh","size":"105 oz","last_store":"H-E-B","regular_price":24.94,"coupon":5.0,"paid_price":19.94,"category":"laundry"},
+    {"name":"Johnsonville Mild Italian Sausage","size":"19 oz","last_store":"H-E-B","regular_price":5.92,"paid_price":4.92,"usual_qty":2,"category":"meat"},
+    {"name":"Premium bananas","last_store":"H-E-B","last_price":1.53,"category":"produce"},
+    {"name":"Roma tomatoes","last_store":"H-E-B","last_price":1.47,"category":"produce"},
+    {"name":"Red bell peppers","last_store":"H-E-B","last_price":3.88,"category":"produce"},
+    {"name":"Small lemons","last_store":"H-E-B","last_price":2.64,"category":"produce"},
+    {"name":"Personal watermelon","last_store":"H-E-B","last_price":3.88,"category":"produce"},
+    {"name":"H-E-B Angel Sweets tomatoes","last_store":"H-E-B","last_price":5.98,"category":"produce"},
+    {"name":"Fresh carrots","size":"2 lb","last_store":"H-E-B","last_price":2.44,"category":"produce"},
+    {"name":"H-E-B carrot sticks","size":"12 oz","last_store":"H-E-B","last_price":1.98,"category":"produce"},
+    {"name":"Pineapple rings","size":"28 oz","last_store":"H-E-B","last_price":6.98,"category":"produce"},
+    {"name":"Petite romaine hearts","last_store":"H-E-B","last_price":2.48,"category":"produce"},
+    {"name":"Small Hass avocados","last_store":"H-E-B","last_price":3.36,"category":"produce"},
+    {"name":"H-E-B bakery cornbread","size":"7x7 / 15 oz","last_store":"H-E-B","last_price":4.98,"category":"bakery"}
+  ]
+}
