@@ -1,0 +1,199 @@
+{
+  "updated_at": "2026-08-30T03:15:00-05:00",
+  "rules": {
+    "require_same_unit_basis": true,
+    "require_known_pack_size": true,
+    "warehouse_club_sticker_price_never_wins_without_normalization": true
+  },
+  "items": [
+    {
+      "item_code": "0000885941",
+      "store": "Sam's Club",
+      "receipt_name": "MAC&CHS 18C",
+      "display_name": "Mac & cheese 18-count",
+      "paid_price": 10.96,
+      "regular_price": 14.96,
+      "instant_savings": 4.00,
+      "unit_basis": "count",
+      "pack_units": 18,
+      "unit_price": 0.6089,
+      "pack_confidence": "high",
+      "status": "normalized"
+    },
+    {
+      "item_code": "0990435570",
+      "store": "Sam's Club",
+      "receipt_name": "UNC GRP 24C",
+      "display_name": "UNC GRP 24-count",
+      "paid_price": 11.87,
+      "regular_price": 14.87,
+      "instant_savings": 3.00,
+      "unit_basis": "count",
+      "pack_units": 24,
+      "unit_price": 0.4946,
+      "pack_confidence": "high",
+      "status": "normalized"
+    },
+    {
+      "item_code": "0990007818",
+      "store": "Sam's Club",
+      "receipt_name": "PER HR 20CT",
+      "display_name": "PER HR 20-count",
+      "paid_price": 14.88,
+      "unit_basis": "count",
+      "pack_units": 20,
+      "unit_price": 0.7440,
+      "pack_confidence": "high",
+      "status": "normalized"
+    },
+    {
+      "item_code": "0000712356",
+      "store": "Sam's Club",
+      "receipt_name": "NUTELLA 2PK",
+      "display_name": "Nutella 2-pack",
+      "paid_price": 12.78,
+      "unit_basis": "pack-piece",
+      "pack_units": 2,
+      "unit_price": 6.39,
+      "pack_confidence": "high",
+      "status": "normalized-but-size-needed-for-cross-store"
+    },
+    {
+      "item_code": "0990000533",
+      "store": "Sam's Club",
+      "receipt_name": "SHPTWLS12PK",
+      "display_name": "Shop towels 12-pack",
+      "paid_price": 22.64,
+      "unit_basis": "roll-or-pack-piece",
+      "pack_units": 12,
+      "unit_price": 1.8867,
+      "pack_confidence": "medium",
+      "status": "needs-product-resolution"
+    },
+    {
+      "item_code": "0990378241",
+      "store": "Sam's Club",
+      "receipt_name": "SCRUB MOM 6",
+      "display_name": "Scrub item 6-count",
+      "paid_price": 12.88,
+      "unit_basis": "count",
+      "pack_units": 6,
+      "unit_price": 2.1467,
+      "pack_confidence": "medium",
+      "status": "needs-product-resolution"
+    },
+    {
+      "item_code": "0980196944",
+      "store": "Sam's Club",
+      "receipt_name": "MM AA-48",
+      "display_name": "MM AA 48-count",
+      "paid_price": 17.98,
+      "unit_basis": "count",
+      "pack_units": 48,
+      "unit_price": 0.3746,
+      "pack_confidence": "medium",
+      "status": "needs-product-resolution"
+    },
+    {
+      "item_code": "0990295931",
+      "store": "Sam's Club",
+      "receipt_name": "QNUP 36M",
+      "display_name": "QNUP 36M",
+      "paid_price": 27.98,
+      "unit_basis": null,
+      "pack_units": null,
+      "unit_price": null,
+      "pack_confidence": "low",
+      "status": "needs-unit-resolution",
+      "note": "36M is preserved as printed; do not assume roll equivalence until the exact package is identified."
+    },
+    {
+      "item_code": "0980393081",
+      "store": "Sam's Club",
+      "receipt_name": "COKE MINI 3",
+      "display_name": "Coke Mini 3",
+      "paid_price": 17.28,
+      "unit_basis": null,
+      "pack_units": null,
+      "unit_price": null,
+      "pack_confidence": "low",
+      "status": "needs-unit-resolution"
+    },
+    {
+      "item_code": "0980315552",
+      "store": "Sam's Club",
+      "receipt_name": "GOGO APL AP",
+      "display_name": "GoGo apple item",
+      "paid_price": 15.98,
+      "unit_basis": null,
+      "pack_units": null,
+      "unit_price": null,
+      "pack_confidence": "low",
+      "status": "needs-unit-resolution"
+    },
+    {
+      "item_code": "0990393946",
+      "store": "Sam's Club",
+      "receipt_name": "DOVE",
+      "display_name": "Dove",
+      "paid_price": 12.48,
+      "regular_price": 16.48,
+      "instant_savings": 4.00,
+      "unit_basis": null,
+      "pack_units": null,
+      "unit_price": null,
+      "pack_confidence": "low",
+      "status": "needs-unit-resolution"
+    },
+    {
+      "item_code": "0990008786",
+      "store": "Sam's Club",
+      "receipt_name": "CREST PASTE",
+      "display_name": "Crest toothpaste",
+      "paid_price": 9.98,
+      "regular_price": 11.98,
+      "instant_savings": 2.00,
+      "unit_basis": null,
+      "pack_units": null,
+      "unit_price": null,
+      "pack_confidence": "low",
+      "status": "needs-unit-resolution"
+    },
+    {
+      "item_code": "0980226016",
+      "store": "Sam's Club",
+      "receipt_name": "RAOS",
+      "display_name": "Rao's",
+      "paid_price": 7.76,
+      "regular_price": 9.76,
+      "instant_savings": 2.00,
+      "unit_basis": null,
+      "pack_units": null,
+      "unit_price": null,
+      "pack_confidence": "low",
+      "status": "needs-size-resolution"
+    },
+    {
+      "item_code": "0000211040",
+      "store": "Sam's Club",
+      "receipt_name": "BAKED BEANS",
+      "display_name": "Baked beans",
+      "paid_price": 9.98,
+      "regular_price": 11.48,
+      "instant_savings": 1.50,
+      "unit_basis": null,
+      "pack_units": null,
+      "unit_price": null,
+      "pack_confidence": "low",
+      "status": "needs-size-resolution"
+    }
+  ],
+  "cross_store_examples": [
+    {
+      "name": "Mac & cheese 18-count",
+      "sams": {"price": 10.96, "units": 18, "unit_basis": "count", "unit_price": 0.6089},
+      "competitors": [],
+      "verdict": "waiting-for-same-basis-competitor-price"
+    }
+  ]
+}
