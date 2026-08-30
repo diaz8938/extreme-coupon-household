@@ -72,7 +72,6 @@
         continue;
       }
 
-      // H-E-B-style quantity continuation: "2 Ea @ 1/ 4.92 F 9.84"
       let m=line.match(/^(\d+)\s*(?:EA|EACH|PCS?)?\s*@\s*(?:1\s*\/\s*)?\$?(\d+\.\d{2})\s*(?:[A-Z]{1,2})?\s*\$?(\d+\.\d{2})$/i);
       if(m && pendingName){
         const c=makeCandidate12({name:pendingName,qty:Number(m[1]),unitPrice:Number(m[2]),lineTotal:Number(m[3]),store,rawLine:raw});
@@ -81,7 +80,6 @@
         continue;
       }
 
-      // Same-line quantity: "JOHNSONVILLE ITALIAN 2 Ea @ 1/ 4.92 F 9.84"
       m=line.match(/^(?:(\d{6,14})\s+)?(.+?)\s+(\d+)\s*(?:EA|EACH|PCS?|X)\s*@\s*(?:1\s*\/\s*)?\$?(\d+\.\d{2})\s*(?:[A-Z]{1,2})?\s*\$?(\d+\.\d{2})$/i);
       if(m){
         const c=makeCandidate12({name:m[2],itemCode:m[1]||'',qty:Number(m[3]),unitPrice:Number(m[4]),lineTotal:Number(m[5]),store,rawLine:raw});
@@ -90,7 +88,6 @@
         continue;
       }
 
-      // Common "2 x 4.92 9.84" variant.
       m=line.match(/^(?:(\d{6,14})\s+)?(.+?)\s+(\d+)\s*[Xx]\s*\$?(\d+\.\d{2})\s+\$?(\d+\.\d{2})$/);
       if(m){
         const c=makeCandidate12({name:m[2],itemCode:m[1]||'',qty:Number(m[3]),unitPrice:Number(m[4]),lineTotal:Number(m[5]),store,rawLine:raw});
@@ -99,7 +96,6 @@
         continue;
       }
 
-      // Sam's-style item number + description + price.
       m=line.match(/^(\d{6,14})\s+(.+?)\s+\$?(\d+\.\d{2})(?:\s+[A-Z]{1,2})?$/i);
       if(m){
         const c=makeCandidate12({name:m[2],itemCode:m[1],qty:1,unitPrice:Number(m[3]),lineTotal:Number(m[3]),store,rawLine:raw});
@@ -108,7 +104,6 @@
         continue;
       }
 
-      // Numbered receipt row, but do not treat the row number as an item code.
       m=line.match(/^\d{1,3}\s+(.+?)\s+\$?(\d+\.\d{2})(?:\s+[A-Z]{1,2})?$/i);
       if(m){
         const c=makeCandidate12({name:m[1],qty:1,unitPrice:Number(m[2]),lineTotal:Number(m[2]),store,rawLine:raw});
@@ -117,7 +112,6 @@
         continue;
       }
 
-      // Generic description + price.
       m=line.match(/^(.+?)[\s$]+(\d+\.\d{2})(?:\s+[A-Z]{1,2})?$/i);
       if(m){
         const c=makeCandidate12({name:m[1],qty:1,unitPrice:Number(m[2]),lineTotal:Number(m[2]),store,rawLine:raw});
@@ -126,7 +120,6 @@
         continue;
       }
 
-      // Keep a plausible product-name line so a following quantity row can complete it.
       if(/[A-Z]{3}/i.test(line) && !/^\d+[\s.:/-]*$/.test(line) && line.length>=3 && line.length<=80){
         pendingName=line.replace(/^\d{1,3}\s+/,'').trim();
       } else pendingName='';
@@ -178,7 +171,7 @@
   }
 
   function fingerprint12(receipt){
-    const sig=(receipt.lines||[]).map(x=>`${x.item_code||compact12(x.name)}:${x.qty||1}:${Number(x.unit_price??x.price||0).toFixed(2)}`).sort().join('|');
+    const sig=(receipt.lines||[]).map(x=>`${x.item_code||compact12(x.name)}:${x.qty||1}:${Number((x.unit_price ?? x.price) || 0).toFixed(2)}`).sort().join('|');
     const base=`${storeKey12(receipt.store)}|${receipt.date}|${Number(receipt.total||0).toFixed(2)}|${sig}`;
     let h=2166136261;
     for(let i=0;i<base.length;i++){h^=base.charCodeAt(i);h=Math.imul(h,16777619);}
@@ -220,7 +213,6 @@
     window.dispatchEvent(new CustomEvent('ec:receipt-saved',{detail:{receipt}}));
   }
 
-  // Replace v1.1 parser bindings after app.js has initialized its handlers.
   parseReceiptText=enhancedParse12;
   renderCandidates=enhancedRender12;
   saveReceipt=enhancedSave12;
