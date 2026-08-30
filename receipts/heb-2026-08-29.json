@@ -1,0 +1,39 @@
+{
+  "store": "H-E-B",
+  "store_number": "734",
+  "address": "5502 Sherwood Way, San Angelo, TX 76901",
+  "date": "2026-08-29",
+  "time": "20:43",
+  "items_purchased": 101,
+  "sale_subtotal": 473.6,
+  "sales_tax": 12.37,
+  "total_sale": 485.97,
+  "sale_price_cut_savings": 6.12,
+  "free_coupon_savings": 9.0,
+  "total_savings": 15.12,
+  "parsed_highlights": [
+    {"item":"Fancy Feast Medleys Primavera Chicken","qty":2,"unit_price":21.68,"line_total":43.36},
+    {"item":"H-E-B Texas Pets dog food beef","qty":1,"line_total":0.76},
+    {"item":"H-E-B Texas Pets dog food chicken","qty":1,"line_total":0.76},
+    {"item":"H-E-B Texas Pets dog food pouch","qty":1,"line_total":18.24},
+    {"item":"Fancy Feast Classic Seafood multipack","qty":1,"line_total":22.86},
+    {"item":"Tide Liquid + Downy April Fresh 105 oz","qty":1,"regular_price":24.94,"coupon":5.0,"line_total":19.94},
+    {"item":"Johnsonville Italian sausage","qty":2,"regular_unit_price":5.92,"effective_unit_price":4.92,"line_total":9.84},
+    {"item":"Premium bananas","qty":1,"line_total":1.53},
+    {"item":"Roma tomatoes","qty":1,"line_total":1.47},
+    {"item":"Red bell peppers","qty":1,"line_total":3.88},
+    {"item":"Small lemons","qty":1,"line_total":2.64},
+    {"item":"Personal watermelon","qty":1,"line_total":3.88},
+    {"item":"H-E-B Angel Sweets tomatoes","qty":1,"line_total":5.98},
+    {"item":"Fresh carrots 2 lb","qty":1,"line_total":2.44},
+    {"item":"H-E-B carrot sticks","qty":1,"line_total":1.98},
+    {"item":"Pineapple rings 28 oz","qty":1,"line_total":6.98},
+    {"item":"Petite romaine hearts","qty":1,"line_total":2.48},
+    {"item":"Small Hass avocados","qty":1,"line_total":3.36},
+    {"item":"Corn bread","qty":1,"line_total":4.98}
+  ],
+  "notes": [
+    "Receipt photos only partially expose all 101 items; highlights above are manually parsed from visible lines.",
+    "Future importer should flag uncertain lines for confirmation instead of silently guessing."
+  ]
+}
