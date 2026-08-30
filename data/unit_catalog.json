@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-30T03:15:00-05:00",
+  "updated_at": "2026-08-30T03:18:00-05:00",
   "rules": {
     "require_same_unit_basis": true,
     "require_known_pack_size": true,
@@ -10,29 +10,31 @@
       "item_code": "0000885941",
       "store": "Sam's Club",
       "receipt_name": "MAC&CHS 18C",
-      "display_name": "Mac & cheese 18-count",
+      "display_name": "Kraft Original Macaroni & Cheese Dinner, 18 pk.",
       "paid_price": 10.96,
       "regular_price": 14.96,
       "instant_savings": 4.00,
       "unit_basis": "count",
       "pack_units": 18,
       "unit_price": 0.6089,
-      "pack_confidence": "high",
-      "status": "normalized"
+      "pack_confidence": "web-confirmed",
+      "status": "normalized",
+      "source_note": "Sam's current product listing matches receipt regular price $14.96 and 18-pack count."
     },
     {
       "item_code": "0990435570",
       "store": "Sam's Club",
       "receipt_name": "UNC GRP 24C",
-      "display_name": "UNC GRP 24-count",
+      "display_name": "Smucker's Uncrustables Peanut Butter & Grape Jelly, 2.4 oz., 24 ct.",
       "paid_price": 11.87,
       "regular_price": 14.87,
       "instant_savings": 3.00,
       "unit_basis": "count",
       "pack_units": 24,
       "unit_price": 0.4946,
-      "pack_confidence": "high",
-      "status": "normalized"
+      "pack_confidence": "web-confirmed",
+      "status": "normalized",
+      "source_note": "San Angelo Sam's listing matches receipt regular price $14.87 and 24-count grape Uncrustables."
     },
     {
       "item_code": "0990007818",
@@ -163,15 +165,16 @@
       "item_code": "0980226016",
       "store": "Sam's Club",
       "receipt_name": "RAOS",
-      "display_name": "Rao's",
+      "display_name": "Rao's Homemade Marinara Sauce, 22 oz., 2 pk.",
       "paid_price": 7.76,
       "regular_price": 9.76,
       "instant_savings": 2.00,
-      "unit_basis": null,
-      "pack_units": null,
-      "unit_price": null,
-      "pack_confidence": "low",
-      "status": "needs-size-resolution"
+      "unit_basis": "ounce",
+      "pack_units": 44,
+      "unit_price": 0.1764,
+      "pack_confidence": "web-confirmed",
+      "status": "normalized",
+      "source_note": "Sam's current listing matches receipt regular price $9.76 and identifies 22 oz x 2 jars."
     },
     {
       "item_code": "0000211040",
@@ -190,8 +193,14 @@
   ],
   "cross_store_examples": [
     {
-      "name": "Mac & cheese 18-count",
+      "name": "Kraft Original Macaroni & Cheese Dinner, 18 pk.",
       "sams": {"price": 10.96, "units": 18, "unit_basis": "count", "unit_price": 0.6089},
+      "competitors": [],
+      "verdict": "waiting-for-same-basis-competitor-price"
+    },
+    {
+      "name": "Rao's Homemade Marinara Sauce",
+      "sams": {"price": 7.76, "units": 44, "unit_basis": "ounce", "unit_price": 0.1764},
       "competitors": [],
       "verdict": "waiting-for-same-basis-competitor-price"
     }
