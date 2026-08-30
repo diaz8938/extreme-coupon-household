@@ -1,0 +1,95 @@
+{
+  "updated_at": "2026-08-30T03:35:00-05:00",
+  "policy": {
+    "strict_route_requires_local_receipt_verified": true,
+    "online_reference_is_scouting_only": true,
+    "whole_package_rounding_required": true,
+    "overbuy_cost_is_counted": true
+  },
+  "items": [
+    {
+      "product_id": "bulk-dove-sensitive-bodywash",
+      "name": "Dove Sensitive Skin Body Wash",
+      "need_basis": "fluid-ounce",
+      "default_need": 61.2,
+      "stores": {
+        "Sam's Club": {"package_price": 12.48, "package_units": 61.2, "confidence": "local-receipt-verified", "match_quality": "same-product-line", "source": "Sam's receipt 2026-08-28 · 30.6 oz x2 after $4 Instant Savings"},
+        "H-E-B": {"package_price": 10.97, "package_units": 30.6, "confidence": "current-online-reference", "match_quality": "same-product-line", "source": "H-E-B current online reference"},
+        "Walmart": {"package_price": 10.97, "package_units": 30.6, "confidence": "current-online-reference", "match_quality": "same-product-line", "source": "Walmart current online reference"}
+      }
+    },
+    {
+      "product_id": "bulk-nutella",
+      "name": "Nutella Hazelnut Spread",
+      "need_basis": "ounce",
+      "default_need": 53,
+      "stores": {
+        "Sam's Club": {"package_price": 12.78, "package_units": 53, "confidence": "local-receipt-verified", "match_quality": "same-product", "source": "Sam's receipt 2026-08-28 · 26.5 oz x2"},
+        "H-E-B": {"package_price": 9.84, "package_units": 26.5, "confidence": "current-online-reference", "match_quality": "same-product", "source": "H-E-B current online reference"},
+        "Walmart": {"package_price": 9.84, "package_units": 26.5, "confidence": "current-online-reference", "match_quality": "same-product", "source": "Walmart current online reference"}
+      }
+    },
+    {
+      "product_id": "bulk-gogo-applesauce",
+      "name": "GoGo squeeZ Applesauce",
+      "need_basis": "pouch",
+      "default_need": 32,
+      "stores": {
+        "Sam's Club": {"package_price": 15.98, "package_units": 32, "confidence": "local-receipt-verified", "match_quality": "same-product-line", "source": "Sam's receipt 2026-08-28 · 32 count"},
+        "Walmart": {"package_price": 12.97, "package_units": 24, "confidence": "current-online-reference", "match_quality": "same-product-line", "source": "Walmart current online reference"},
+        "H-E-B": {"package_price": 7.97, "package_units": 12, "confidence": "current-online-reference", "match_quality": "same-product-line", "source": "H-E-B current online reference"}
+      }
+    },
+    {
+      "product_id": "bulk-bush-baked-beans",
+      "name": "Bush's Original Baked Beans",
+      "need_basis": "ounce",
+      "default_need": 132,
+      "stores": {
+        "Sam's Club": {"package_price": 9.98, "package_units": 132, "confidence": "local-receipt-verified", "match_quality": "same-product", "source": "Sam's receipt 2026-08-28 · 16.5 oz x8 after $1.50 Instant Savings"},
+        "H-E-B": {"package_price": 2.77, "package_units": 28, "confidence": "current-online-reference", "match_quality": "same-product", "source": "H-E-B current online reference"}
+      }
+    },
+    {
+      "product_id": "bulk-crest-scope",
+      "name": "Crest Complete + Scope Outlast Toothpaste",
+      "need_basis": "ounce",
+      "default_need": 31.5,
+      "stores": {
+        "Sam's Club": {"package_price": 9.98, "package_units": 31.5, "confidence": "local-receipt-verified", "match_quality": "same-product-line", "source": "Sam's receipt 2026-08-28 · 6.3 oz x5 after $2 Instant Savings"},
+        "H-E-B": {"package_price": 7.49, "package_units": 10.8, "confidence": "current-online-reference", "match_quality": "same-product-line", "source": "H-E-B current online reference · 5.4 oz x2"}
+      }
+    },
+    {
+      "product_id": "bulk-purified-water-40",
+      "name": "Purified Water 16.9 fl oz Bottles",
+      "need_basis": "bottle",
+      "default_need": 40,
+      "stores": {
+        "Sam's Club": {"package_price": 4.28, "package_units": 40, "confidence": "local-receipt-verified", "match_quality": "same-category", "source": "Sam's receipt 2026-08-28 · Member's Mark 40 count"},
+        "H-E-B": {"package_price": 5.18, "package_units": 40, "confidence": "current-online-reference", "match_quality": "substitute-only", "source": "H-E-B online reference · Hill Country Fare 40 count"},
+        "Walmart": {"package_price": 5.47, "package_units": 40, "confidence": "current-online-reference", "match_quality": "substitute-only", "source": "Walmart online reference · Great Value 40 count"}
+      }
+    },
+    {
+      "product_id": "bulk-coke-mini",
+      "name": "Coca-Cola Mini Cans 7.5 fl oz",
+      "need_basis": "can",
+      "default_need": 30,
+      "stores": {
+        "Sam's Club": {"package_price": 17.28, "package_units": 30, "confidence": "local-receipt-verified", "match_quality": "same-product", "source": "Sam's receipt 2026-08-28 · 30 count"},
+        "Walmart": {"package_price": 5.97, "package_units": 10, "confidence": "current-online-reference", "match_quality": "same-product", "source": "Walmart current online reference · 10 count"}
+      }
+    },
+    {
+      "product_id": "bulk-quilted-northern",
+      "name": "Quilted Northern Ultra Plush Mega Rolls",
+      "need_basis": "roll",
+      "default_need": 36,
+      "stores": {
+        "Sam's Club": {"package_price": 27.98, "package_units": 36, "confidence": "local-receipt-verified", "match_quality": "same-product-line", "source": "Sam's receipt 2026-08-28 · 36 Mega Rolls x255 sheets"},
+        "H-E-B": {"package_price": 23.28, "package_units": 24, "confidence": "current-online-reference", "match_quality": "same-product-line", "source": "H-E-B current online reference · 24 Mega Rolls x255 sheets"}
+      }
+    }
+  ]
+}
