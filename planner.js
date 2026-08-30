@@ -204,7 +204,7 @@
     const unresolved=result.unresolved;
     const baseline=heb || oneStop;
     const baselineName=heb?'all H-E-B':oneStop?'best one-stop':'baseline';
-    const savings=baseline ? Math.max(0,baseline.total-(result.raw-result.coupons)) : null;
+    const savings=baseline ? Math.max(0,baseline.total-result.total) : null;
     const unlinkedCoupons=activeCoupons().filter(c=>!c.product_id).length;
 
     const byStore={};
