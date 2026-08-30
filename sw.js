@@ -1,5 +1,5 @@
-const CACHE='extreme-coupon-v09-stockup';
-const CORE=['./','./index.html','./app.js','./planner.js','./bulk.js','./stockup.js','./manifest.webmanifest','./icon.svg','./data/household.json','./data/comparisons.json','./data/coupons.json','./data/unit_catalog.json','./data/unit_competitors.json','./data/planner_bulk.json','./data/stockup_seed.json','./receipts/heb-2026-08-29.json','./receipts/dg-2026-08-29.json','./receipts/sams-2026-08-28.json'];
+const CACHE='extreme-coupon-v10-inventory';
+const CORE=['./','./index.html','./app.js','./planner.js','./bulk.js','./stockup.js','./inventory.js','./manifest.webmanifest','./icon.svg','./data/household.json','./data/comparisons.json','./data/coupons.json','./data/unit_catalog.json','./data/unit_competitors.json','./data/planner_bulk.json','./data/stockup_seed.json','./data/inventory_seed.json','./receipts/heb-2026-08-29.json','./receipts/dg-2026-08-29.json','./receipts/sams-2026-08-28.json'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE))));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{
