@@ -1,0 +1,93 @@
+{
+  "updated_at": "2026-08-29T21:30:00-05:00",
+  "comparisons": [
+    {
+      "product_id": "fancy-feast-medleys-primavera-6-5",
+      "name": "Fancy Feast Medleys Primavera dry cat food",
+      "size": "6.5 lb",
+      "usual_qty": 2,
+      "match_quality": "exact",
+      "stores": {
+        "H-E-B": {"price": 21.68, "verified": true, "source": "H-E-B receipt 2026-08-29"},
+        "Walmart": {"price": 18.76, "verified": true, "source": "Walmart exact product-page snapshot", "source_url": "https://www.walmart.com/ip/13102653841"}
+      }
+    },
+    {
+      "product_id": "fresh-carrots-2lb",
+      "name": "Fresh whole carrots",
+      "size": "2 lb",
+      "usual_qty": 1,
+      "match_quality": "equivalent-produce",
+      "stores": {
+        "H-E-B": {"price": 2.44, "verified": true, "source": "H-E-B receipt 2026-08-29"},
+        "Walmart": {"price": 2.26, "verified": true, "source": "Walmart 2 lb whole-carrot snapshot", "source_url": "https://www.walmart.com/ip/10535757"}
+      }
+    },
+    {
+      "product_id": "heb-carrot-sticks-12",
+      "name": "Carrot sticks",
+      "size": "12 oz",
+      "usual_qty": 1,
+      "match_quality": "equivalent",
+      "stores": {
+        "H-E-B": {"price": 1.98, "verified": true, "source": "H-E-B receipt 2026-08-29"},
+        "Walmart": {"price": 2.04, "verified": true, "source": "Walmart Bolthouse 12 oz snapshot", "source_url": "https://www.walmart.com/ip/14212506483"}
+      }
+    },
+    {
+      "product_id": "heb-angel-sweets-24",
+      "name": "Angel Sweet tomatoes",
+      "size": "24 oz",
+      "usual_qty": 1,
+      "match_quality": "equivalent",
+      "stores": {
+        "H-E-B": {"price": 5.98, "verified": true, "source": "H-E-B receipt 2026-08-29"},
+        "Walmart": {"price": 6.77, "verified": true, "source": "Walmart 1.5 lb Angel Sweet snapshot", "source_url": "https://www.walmart.com/ip/29235574"}
+      }
+    },
+    {
+      "product_id": "heb-red-bell-peppers",
+      "name": "Red bell peppers",
+      "size": "4 peppers",
+      "usual_qty": 1,
+      "match_quality": "equivalent-produce",
+      "stores": {
+        "H-E-B": {"price": 3.88, "verified": true, "source": "H-E-B produce label/receipt 2026-08-29"},
+        "Walmart": {"price": 6.08, "verified": true, "source": "4 x Walmart loose red pepper at $1.52 snapshot", "source_url": "https://www.walmart.com/ip/44391581"}
+      }
+    },
+    {
+      "product_id": "heb-small-lemons",
+      "name": "Small lemons",
+      "size": "8 lemons",
+      "usual_qty": 1,
+      "match_quality": "equivalent-produce",
+      "stores": {
+        "H-E-B": {"price": 2.64, "verified": true, "source": "H-E-B produce label/receipt 2026-08-29"},
+        "Walmart": {"price": 5.44, "verified": true, "source": "8 x Walmart loose lemon at $0.68 snapshot"}
+      }
+    },
+    {
+      "product_id": "heb-premium-bananas",
+      "name": "Premium bananas",
+      "size": "3.06 lb",
+      "usual_qty": 1,
+      "match_quality": "equivalent-produce",
+      "stores": {
+        "H-E-B": {"price": 1.53, "verified": true, "source": "H-E-B produce label/receipt 2026-08-29"},
+        "Walmart": {"price": 1.53, "verified": true, "source": "Walmart $0.50/lb snapshot applied to 3.06 lb"}
+      }
+    },
+    {
+      "product_id": "heb-cornbread-7x7",
+      "name": "Prepared cornbread",
+      "size": "about 15-16 oz",
+      "usual_qty": 1,
+      "match_quality": "substitute-only",
+      "stores": {
+        "H-E-B": {"price": 4.98, "verified": true, "source": "H-E-B bakery label/receipt 2026-08-29"},
+        "Walmart": {"price": 4.42, "verified": true, "source": "Walmart Freshness Guaranteed 16 oz mini cornbread snapshot", "source_url": "https://www.walmart.com/ip/130416860"}
+      }
+    }
+  ]
+}
