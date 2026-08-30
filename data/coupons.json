@@ -1,0 +1,11 @@
+{
+  "active": [],
+  "history": [
+    {"store":"H-E-B","date":"2026-08-29","name":"Tide + Downy coupon","value":5.00,"status":"applied","product_id":"tide-downy-april-105","source":"receipt"},
+    {"store":"H-E-B","date":"2026-08-29","name":"Johnsonville discount","value":2.00,"status":"applied","product_id":"johnsonville-mild-italian-19","source":"receipt","note":"Receipt shows two packs reduced from $5.92 to $4.92 each."},
+    {"store":"H-E-B","date":"2026-08-29","name":"Lactaid caramel creamer coupon","value":2.00,"status":"applied","source":"receipt"},
+    {"store":"Dollar General","date":"2026-08-29","name":"$10 off $30 receipt coupon","value":10.00,"status":"applied","source":"receipt"},
+    {"store":"Dollar General","date":"2026-08-29","name":"Crest / Oral-B $5 off 3","value":5.00,"status":"applied","source":"receipt"}
+  ],
+  "rule": "Only offers the shopper confirms as clipped/available may be included in future optimization. Publicly visible coupons are suggestions, not usable savings, until confirmed."
+}
