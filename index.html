@@ -15,47 +15,14 @@
 <div class="wrap">
   <div class="head"><div><h1>Extreme Coupon</h1><div class="sub">Household optimizer v0.5</div></div><div class="badge">LOCAL-FIRST</div></div>
   <div class="tabs">
-    <button class="tab active" data-tab="home">Home</button>
-    <button class="tab" data-tab="compare">Compare</button>
-    <button class="tab" data-tab="receipt">Receipt</button>
-    <button class="tab" data-tab="wallet">Wallet</button>
-    <button class="tab" data-tab="history">History</button>
+    <button class="tab active" data-tab="home">Home</button><button class="tab" data-tab="compare">Compare</button><button class="tab" data-tab="receipt">Receipt</button><button class="tab" data-tab="wallet">Wallet</button><button class="tab" data-tab="history">History</button>
   </div>
-
-  <section id="home" class="panel active">
-    <div class="card"><h2>Latest H-E-B trip</h2><div id="summary" class="summary"></div><div class="note" style="margin-top:9px">Store #734 · 8/29/2026 · 101-item baseline transaction</div></div>
-    <div class="card"><h2>Biggest verified opportunities</h2><div id="alerts"></div></div>
-    <div class="card"><h2>Usually buy</h2><div id="items"></div></div>
-  </section>
-
-  <section id="compare" class="panel">
-    <div class="card"><h2>Cross-store comparison</h2><div class="note">Only verified prices are allowed to win. Exact branded matches are required; substitutes are labeled.</div><div id="comparisons"></div></div>
-  </section>
-
-  <section id="receipt" class="panel">
-    <div class="card"><h2>Import a receipt</h2><div class="note">Photo OCR runs on your phone using free client-side OCR. Nothing is sent to an AI API. Always confirm extracted lines before saving.</div>
-      <div class="upload" style="margin-top:10px"><input id="receiptImage" type="file" accept="image/*" capture="environment"><img id="preview" class="preview" hidden></div>
-      <button id="ocrBtn" class="btn primary" style="width:100%;margin-top:9px">Read receipt photo</button>
-      <div class="progress"><div id="ocrProgress"></div></div><div id="ocrStatus" class="note" style="margin-top:5px"></div>
-      <textarea id="receiptText" placeholder="Or paste receipt text here..."></textarea>
-      <div class="formRow"><select id="storeSelect"><option>Auto-detect store</option><option>H-E-B</option><option>Dollar General</option><option>Walmart</option><option>Other</option></select><button id="parseBtn" class="btn secondary">Parse text</button></div>
-    </div>
-    <div class="card"><h2>Confirm extracted lines</h2><div id="candidates"><div class="empty">Parse a receipt first.</div></div><button id="saveReceiptBtn" class="btn primary" style="width:100%;margin-top:9px">Save confirmed lines</button></div>
-  </section>
-
-  <section id="wallet" class="panel">
-    <div class="card"><h2>Active coupon wallet</h2><div class="note">If it isn't clipped/visible in your account, it does not count in optimization.</div><div id="activeCoupons"></div>
-      <div class="formRow"><input id="couponName" placeholder="Coupon name"><input id="couponValue" type="number" step="0.01" placeholder="Value"></div>
-      <div class="formRow"><select id="couponStore"><option>H-E-B</option><option>Walmart</option><option>Dollar General</option><option>Other</option></select><button id="addCouponBtn" class="btn primary">Add clipped coupon</button></div>
-    </div>
-    <div class="card"><h2>Applied coupon history</h2><div id="couponHistory"></div></div>
-  </section>
-
-  <section id="history" class="panel">
-    <div class="card"><h2>Receipt history</h2><div id="receiptHistory"></div></div>
-  </section>
+  <section id="home" class="panel active"><div class="card"><h2>Latest H-E-B trip</h2><div id="summary" class="summary"></div><div class="note" style="margin-top:9px">Store #734 · 8/29/2026 · 101-item baseline transaction</div></div><div class="card"><h2>Biggest verified opportunities</h2><div id="alerts"></div></div><div class="card"><h2>Usually buy</h2><div id="items"></div></div></section>
+  <section id="compare" class="panel"><div class="card"><h2>Cross-store comparison</h2><div class="note">Only verified prices are allowed to win. Exact branded matches are required; substitutes are labeled.</div><div id="comparisons"></div></div></section>
+  <section id="receipt" class="panel"><div class="card"><h2>Import a receipt</h2><div class="note">Photo OCR runs on your phone using free client-side OCR. Nothing is sent to an AI API. Always confirm extracted lines before saving.</div><div class="upload" style="margin-top:10px"><input id="receiptImage" type="file" accept="image/*" capture="environment"><img id="preview" class="preview" hidden></div><button id="ocrBtn" class="btn primary" style="width:100%;margin-top:9px">Read receipt photo</button><div class="progress"><div id="ocrProgress"></div></div><div id="ocrStatus" class="note" style="margin-top:5px"></div><textarea id="receiptText" placeholder="Or paste receipt text here..."></textarea><div class="formRow"><select id="storeSelect"><option>Auto-detect store</option><option>H-E-B</option><option>Dollar General</option><option>Walmart</option><option>Other</option></select><button id="parseBtn" class="btn secondary">Parse text</button></div></div><div class="card"><h2>Confirm extracted lines</h2><div id="candidates"><div class="empty">Parse a receipt first.</div></div><button id="saveReceiptBtn" class="btn primary" style="width:100%;margin-top:9px">Save confirmed lines</button></div></section>
+  <section id="wallet" class="panel"><div class="card"><h2>Active coupon wallet</h2><div class="note">If it isn't clipped/visible in your account, it does not count in optimization.</div><div id="activeCoupons"></div><div class="formRow"><input id="couponName" placeholder="Coupon name"><input id="couponValue" type="number" step="0.01" placeholder="Value"></div><div class="formRow"><select id="couponStore"><option>H-E-B</option><option>Walmart</option><option>Dollar General</option><option>Other</option></select><button id="addCouponBtn" class="btn primary">Add clipped coupon</button></div></div><div class="card"><h2>Applied coupon history</h2><div id="couponHistory"></div></div></section>
+  <section id="history" class="panel"><div class="card"><h2>Receipt history</h2><div id="receiptHistory"></div></div><div class="card"><h2>Price history</h2><div class="note">Every confirmed receipt line becomes a local price observation on this phone.</div><div id="priceHistory"></div></div></section>
 </div>
 <div class="footer"><button id="installBtn" class="btn secondary">Install app</button><button id="refreshBtn" class="btn primary">Refresh data</button></div>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-<script src="./app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script><script src="./app.js"></script>
 </body></html>
