@@ -2,7 +2,7 @@ const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 const money = n => n == null ? '—' : '$' + Number(n).toFixed(2);
 
-let household, hebReceipt, dgReceipt, comparisonData, couponData;
+let household, hebReceipt, dgReceipt, samReceipt, comparisonData, couponData;
 let receiptFile = null;
 let parsedCandidates = [];
 let deferredPrompt = null;
@@ -17,14 +17,25 @@ const state = {
 };
 
 async function load(){
-  [household, hebReceipt, dgReceipt, comparisonData, couponData] = await Promise.all([
+  [household, hebReceipt, dgReceipt, samReceipt, comparisonData, couponData] = await Promise.all([
     fetch('./data/household.json').then(r=>r.json()),
     fetch('./receipts/heb-2026-08-29.json').then(r=>r.json()),
     fetch('./receipts/dg-2026-08-29.json').then(r=>r.json()),
+    fetch('./receipts/sams-2026-08-28.json').then(r=>r.json()),
     fetch('./data/comparisons.json').then(r=>r.json()),
     fetch('./data/coupons.json').then(r=>r.json())
   ]);
+  ensureStoreOptions();
   renderAll();
+}
+
+function ensureStoreOptions(){
+  for(const id of ['storeSelect','couponStore']){
+    const el=$('#'+id); if(!el) continue;
+    if(![...el.options].some(o=>o.value==="Sam's Club" || o.text==="Sam's Club")){
+      const opt=document.createElement('option'); opt.value="Sam's Club"; opt.textContent="Sam's Club"; el.appendChild(opt);
+    }
+  }
 }
 
 function renderAll(){ renderHome(); renderComparisons(); renderWallet(); renderHistory(); }
@@ -55,7 +66,7 @@ function renderComparisons(){
     const exactRequired = household.optimization_rules.require_exact_match_for_branded_items;
     const isSubstitute = c.match_quality === 'substitute-only';
     const canAutoRecommend = !(exactRequired && isSubstitute);
-    const boxes = ['H-E-B','Walmart','Dollar General'].map(store=>{
+    const boxes = ['H-E-B','Walmart','Dollar General',"Sam's Club"].map(store=>{
       const v = c.stores?.[store];
       if(!v) return `<div class="storeBox"><div class="storeName">${store}</div><div class="storePrice">—</div><small>unverified</small></div>`;
       const wins = best && best[0]===store && canAutoRecommend;
@@ -81,26 +92,41 @@ function renderWallet(){
 window.removeCoupon=i=>{const a=state.activeCoupons;a.splice(i,1);state.activeCoupons=a;renderWallet();};
 
 function renderHistory(){
-  const fixed=[{store:'H-E-B',date:hebReceipt.date,total:hebReceipt.total_sale,items:hebReceipt.items_purchased,source:'baseline'},{store:'Dollar General',date:dgReceipt.date,total:dgReceipt.total_paid,items:null,source:'baseline'}];
+  const fixed=[
+    {store:'H-E-B',date:hebReceipt.date,total:hebReceipt.total_sale,items:hebReceipt.items_purchased,source:'baseline'},
+    {store:'Dollar General',date:dgReceipt.date,total:dgReceipt.total_paid,items:null,source:'baseline'},
+    {store:"Sam's Club",date:samReceipt.date,total:samReceipt.total_paid,items:samReceipt.items_purchased,source:'baseline · instant savings '+money(samReceipt.instant_savings)}
+  ];
   const all=[...state.importedReceipts,...fixed];
   $('#receiptHistory').innerHTML=all.map(r=>`<div class="history"><div><b>${r.store}</b><small>${r.date||'date unknown'} · ${r.source||'imported'}</small></div><div class="right"><b>${money(r.total)}</b><small>${r.items?r.items+' items':''}</small></div></div>`).join('');
   renderPriceHistory();
 }
 
 function renderPriceHistory(){
-  const baseline=household.known_items.filter(x=>(x.paid_price??x.last_price??x.regular_price)!=null).map(x=>({name:x.name,price:x.paid_price??x.last_price??x.regular_price,store:x.last_store,date:'2026-08-29',source:'baseline'}));
-  const all=[...state.priceObservations,...baseline].slice(0,80);
+  const householdBaseline=household.known_items.filter(x=>(x.paid_price??x.last_price??x.regular_price)!=null).map(x=>({name:x.name,price:x.paid_price??x.last_price??x.regular_price,store:x.last_store,date:'2026-08-29',source:'baseline'}));
+  const samsBaseline=(samReceipt.items||[]).map(x=>({name:x.raw_name,price:x.effective_price??x.price,store:"Sam's Club",date:samReceipt.date,source:x.instant_savings?`receipt · after ${money(x.instant_savings)} instant savings`:'receipt'}));
+  const all=[...state.priceObservations,...samsBaseline,...householdBaseline].slice(0,140);
   $('#priceHistory').innerHTML=all.length?all.map(x=>`<div class="history"><div><b>${escapeHtml(x.name)}</b><small>${x.store} · ${x.date} · ${x.source}</small></div><div class="right"><b>${money(x.price)}</b></div></div>`).join(''):'<div class="empty">No price observations yet.</div>';
 }
 
-function detectStore(text){const t=text.toUpperCase();if(t.includes('H-E-B')||t.includes(' HEB '))return'H-E-B';if(t.includes('DOLLAR GENERAL'))return'Dollar General';if(t.includes('WALMART'))return'Walmart';return'Other';}
-function findTotal(text,store){const patterns=store==='H-E-B'?[/TOTAL SALE[^\d]*(\d+\.\d{2})/i,/SALE SUBTOTAL[^\d]*(\d+\.\d{2})/i]:store==='Dollar General'?[/BALANCE TO PAY[^\d]*(\d+\.\d{2})/i,/TOTAL PURCHASE[^\d]*(\d+\.\d{2})/i]:[/TOTAL[^\d]*(\d+\.\d{2})/i];for(const p of patterns){const m=text.match(p);if(m)return Number(m[1]);}return null;}
+function detectStore(text){
+  const t=text.toUpperCase();
+  if(t.includes("SAM'S CLUB")||t.includes('SAMS CLUB'))return"Sam's Club";
+  if(t.includes('H-E-B')||t.includes(' HEB '))return'H-E-B';
+  if(t.includes('DOLLAR GENERAL'))return'Dollar General';
+  if(t.includes('WALMART'))return'Walmart';
+  return'Other';
+}
+function findTotal(text,store){
+  const patterns=store==='H-E-B'?[/TOTAL SALE[^\d]*(\d+\.\d{2})/i,/SALE SUBTOTAL[^\d]*(\d+\.\d{2})/i]:store==='Dollar General'?[/BALANCE TO PAY[^\d]*(\d+\.\d{2})/i,/TOTAL PURCHASE[^\d]*(\d+\.\d{2})/i]:store==="Sam's Club"?[/\bTOTAL\b[^\d]*(\d+\.\d{2})/i]:[/TOTAL[^\d]*(\d+\.\d{2})/i];
+  for(const p of patterns){const m=text.match(p);if(m)return Number(m[1]);}return null;
+}
 
 function parseReceiptText(text){
   const selected=$('#storeSelect').value,store=selected==='Auto-detect store'?detectStore(text):selected;
   const candidates=[];
   for(const line of text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean)){
-    if(/TOTAL|SUBTOTAL|TAX|SAVING|COUPON|DEBIT|CHANGE|BALANCE/i.test(line))continue;
+    if(/TOTAL|SUBTOTAL|TAX|SAVING|COUPON|DEBIT|CHANGE|BALANCE|INST SV/i.test(line))continue;
     let m=line.match(/^\s*\d+\s+(.+?)\s+(\d+\.\d{2})(?:\s*[A-Z]{0,2})?\s*$/);if(!m)m=line.match(/^(.+?)[\s$]+(\d+\.\d{2})\s*$/);if(!m)continue;
     const name=m[1].replace(/\s+/g,' ').trim(),price=Number(m[2]);if(name.length<3||price<=0||price>999)continue;candidates.push({include:true,name,price});
   }
