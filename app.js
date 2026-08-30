@@ -71,7 +71,11 @@ function renderComparisons(){
 
 function renderWallet(){
   const active=state.activeCoupons;
-  $('#activeCoupons').innerHTML=active.length?active.map((c,i)=>`<div class="coupon"><div><b>${c.name}</b><small>${c.store} · confirmed clipped</small></div><div class="right"><b>${money(c.value)}</b><button class="btn danger" style="padding:5px 8px;margin-top:4px" onclick="removeCoupon(${i})">Remove</button></div></div>`).join(''):'<div class="empty">No active coupons saved yet.</div>';
+  $('#activeCoupons').innerHTML=active.length?active.map((c,i)=>{
+    const product=comparisonData?.comparisons?.find(p=>p.product_id===c.product_id);
+    const link=product?`${product.name} · min qty ${Math.max(1,Number(c.min_qty)||1)}`:'unlinked — excluded from optimizer';
+    return `<div class="coupon"><div><b>${c.name}</b><small>${c.store} · confirmed clipped</small><small>${link}</small></div><div class="right"><b>${money(c.value)}</b><button class="btn danger" style="padding:5px 8px;margin-top:4px" onclick="removeCoupon(${i})">Remove</button></div></div>`;
+  }).join(''):'<div class="empty">No active coupons saved yet.</div>';
   $('#couponHistory').innerHTML=couponData.history.map(c=>`<div class="coupon"><div><b>${c.name}</b><small>${c.store} · ${c.date} · ${c.status}</small></div><div class="right"><b>${money(c.value)}</b><small>${c.source}</small></div></div>`).join('');
 }
 window.removeCoupon=i=>{const a=state.activeCoupons;a.splice(i,1);state.activeCoupons=a;renderWallet();};
@@ -127,7 +131,7 @@ function saveReceipt(){
 function bind(){
   $$('.tab').forEach(btn=>btn.onclick=()=>{$$('.tab').forEach(x=>x.classList.remove('active'));$$('.panel').forEach(x=>x.classList.remove('active'));btn.classList.add('active');$('#'+btn.dataset.tab).classList.add('active');});
   $('#receiptImage').onchange=e=>{receiptFile=e.target.files?.[0]||null;if(receiptFile){$('#preview').src=URL.createObjectURL(receiptFile);$('#preview').hidden=false;}};$('#ocrBtn').onclick=runOCR;$('#parseBtn').onclick=()=>parseReceiptText($('#receiptText').value);$('#saveReceiptBtn').onclick=saveReceipt;
-  $('#addCouponBtn').onclick=()=>{const name=$('#couponName').value.trim(),value=Number($('#couponValue').value),store=$('#couponStore').value;if(!name||!(value>0)){alert('Enter a coupon name and value.');return;}const a=state.activeCoupons;a.push({name,value,store,confirmed:true,added_at:new Date().toISOString()});state.activeCoupons=a;$('#couponName').value='';$('#couponValue').value='';renderWallet();};
+  $('#addCouponBtn').onclick=()=>{const name=$('#couponName').value.trim(),value=Number($('#couponValue').value),store=$('#couponStore').value,product_id=$('#couponProduct')?.value||'',min_qty=Math.max(1,Math.floor(Number($('#couponMinQty')?.value)||1));if(!name||!(value>0)){alert('Enter a coupon name and value.');return;}const a=state.activeCoupons;a.push({name,value,store,product_id,min_qty,confirmed:true,added_at:new Date().toISOString()});state.activeCoupons=a;$('#couponName').value='';$('#couponValue').value='';if($('#couponProduct'))$('#couponProduct').value='';if($('#couponMinQty'))$('#couponMinQty').value='1';renderWallet();};
   $('#refreshBtn').onclick=()=>location.reload();$('#installBtn').onclick=async()=>{if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;}else alert('In Chrome, use the browser menu and choose Add to Home screen / Install app.');};
 }
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});bind();load().catch(err=>{console.error(err);document.body.insertAdjacentHTML('beforeend',`<div style="padding:20px;color:#fecaca">App data failed to load: ${escapeHtml(err.message)}</div>`);});
