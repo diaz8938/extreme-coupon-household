@@ -1,0 +1,66 @@
+{
+  "version": "1.2",
+  "policy": {
+    "item_code_exact_match_is_high_confidence": true,
+    "alias_match_requires_same_store_when_known": true,
+    "unknown_codes_do_not_guess": true
+  },
+  "items": [
+    {
+      "store": "Sam's Club",
+      "product_id": "sams-kraft-mac-18",
+      "normalized_name": "Kraft Original Mac & Cheese 18-pack",
+      "item_codes": ["0000885941"],
+      "aliases": ["MAC&CHS 18C", "Kraft Original Macaroni & Cheese"]
+    },
+    {
+      "store": "Sam's Club",
+      "product_id": "sams-uncrustables-grape-24",
+      "normalized_name": "Smucker's Uncrustables Grape 24-count",
+      "item_codes": ["0990435570"],
+      "aliases": ["UNC GRP 24C", "Uncrustables Grape 24"]
+    },
+    {
+      "store": "Sam's Club",
+      "product_id": "sams-raos-marinara-44oz",
+      "normalized_name": "Rao's Marinara 22 oz × 2",
+      "item_codes": ["0980226016"],
+      "aliases": ["RAOS", "Rao's Homemade Marinara"]
+    },
+    {
+      "store": "Sam's Club",
+      "product_id": "sams-bush-baked-beans-8",
+      "normalized_name": "Bush's Original Baked Beans 8-pack",
+      "item_codes": ["0000211040"],
+      "aliases": ["BAKED BEANS", "Bush's Original Baked Beans"]
+    },
+    {
+      "store": "Sam's Club",
+      "product_id": "sams-dove-sensitive-2",
+      "normalized_name": "Dove Sensitive Skin Body Wash 30.6 oz × 2",
+      "item_codes": ["0990393946"],
+      "aliases": ["DOVE", "Dove Sensitive Skin Body Wash"]
+    },
+    {
+      "store": "Sam's Club",
+      "product_id": "sams-crest-scope-5",
+      "normalized_name": "Crest Complete + Scope Outlast 5-pack",
+      "item_codes": ["0990008786"],
+      "aliases": ["CREST PASTE", "Crest Complete + Scope Outlast"]
+    },
+    {
+      "store": "H-E-B",
+      "product_id": "heb-tide-downy-105",
+      "normalized_name": "Tide + Downy April Fresh 105 oz",
+      "item_codes": [],
+      "aliases": ["TIDE LQ DWNY APR FRSH 105", "TIDE LIQUID DOWNY APRIL FRESH 105", "Tide Liquid + Downy April Fresh 105 oz"]
+    },
+    {
+      "store": "H-E-B",
+      "product_id": "heb-johnsonville-italian-19",
+      "normalized_name": "Johnsonville Mild Italian Sausage 19 oz",
+      "item_codes": [],
+      "aliases": ["JOHNSONVILLE ITALIAN", "Johnsonville Italian sausage", "Johnsonville Mild Italian Sausage"]
+    }
+  ]
+}
