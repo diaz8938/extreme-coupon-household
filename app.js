@@ -152,6 +152,7 @@ function saveReceipt(){
   const receipt={id:Date.now(),store,date,total:Number(total.toFixed(2)),items:confirmed.length,source:'phone receipt import',lines:confirmed};const receipts=state.importedReceipts;receipts.unshift(receipt);state.importedReceipts=receipts;
   const obs=state.priceObservations;confirmed.forEach(x=>obs.unshift({name:x.name,price:x.price,store,date,source:'confirmed receipt'}));state.priceObservations=obs.slice(0,500);
   $('#ocrStatus').textContent=`Saved ${confirmed.length} confirmed lines for ${store}.`;renderHistory();
+  window.dispatchEvent(new CustomEvent('ec:receipt-saved',{detail:{receipt}}));
 }
 
 function bind(){
