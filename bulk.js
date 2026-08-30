@@ -154,3 +154,11 @@
   function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
   initBulk().catch(err=>{console.error(err);if($b('#bulkNormalized'))$b('#bulkNormalized').innerHTML=`<div class="empty">Bulk engine failed: ${esc(err.message)}</div>`;});
 })();
+
+(() => {
+  if (document.querySelector('script[data-stockup-loader]')) return;
+  const script = document.createElement('script');
+  script.src = './stockup.js';
+  script.dataset.stockupLoader = '1';
+  document.body.appendChild(script);
+})();
