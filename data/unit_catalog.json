@@ -1,9 +1,10 @@
 {
-  "updated_at": "2026-08-30T03:18:00-05:00",
+  "updated_at": "2026-08-30T03:26:00-05:00",
   "rules": {
     "require_same_unit_basis": true,
     "require_known_pack_size": true,
-    "warehouse_club_sticker_price_never_wins_without_normalization": true
+    "warehouse_club_sticker_price_never_wins_without_normalization": true,
+    "web_reference_does_not_equal_local_price": true
   },
   "items": [
     {
@@ -19,7 +20,7 @@
       "unit_price": 0.6089,
       "pack_confidence": "web-confirmed",
       "status": "normalized",
-      "source_note": "Sam's current product listing matches receipt regular price $14.96 and 18-pack count."
+      "source_note": "Exact Sam's 18-pack resolved; receipt price is local ground truth."
     },
     {
       "item_code": "0990435570",
@@ -33,133 +34,7 @@
       "pack_units": 24,
       "unit_price": 0.4946,
       "pack_confidence": "web-confirmed",
-      "status": "normalized",
-      "source_note": "San Angelo Sam's listing matches receipt regular price $14.87 and 24-count grape Uncrustables."
-    },
-    {
-      "item_code": "0990007818",
-      "store": "Sam's Club",
-      "receipt_name": "PER HR 20CT",
-      "display_name": "PER HR 20-count",
-      "paid_price": 14.88,
-      "unit_basis": "count",
-      "pack_units": 20,
-      "unit_price": 0.7440,
-      "pack_confidence": "high",
       "status": "normalized"
-    },
-    {
-      "item_code": "0000712356",
-      "store": "Sam's Club",
-      "receipt_name": "NUTELLA 2PK",
-      "display_name": "Nutella 2-pack",
-      "paid_price": 12.78,
-      "unit_basis": "pack-piece",
-      "pack_units": 2,
-      "unit_price": 6.39,
-      "pack_confidence": "high",
-      "status": "normalized-but-size-needed-for-cross-store"
-    },
-    {
-      "item_code": "0990000533",
-      "store": "Sam's Club",
-      "receipt_name": "SHPTWLS12PK",
-      "display_name": "Shop towels 12-pack",
-      "paid_price": 22.64,
-      "unit_basis": "roll-or-pack-piece",
-      "pack_units": 12,
-      "unit_price": 1.8867,
-      "pack_confidence": "medium",
-      "status": "needs-product-resolution"
-    },
-    {
-      "item_code": "0990378241",
-      "store": "Sam's Club",
-      "receipt_name": "SCRUB MOM 6",
-      "display_name": "Scrub item 6-count",
-      "paid_price": 12.88,
-      "unit_basis": "count",
-      "pack_units": 6,
-      "unit_price": 2.1467,
-      "pack_confidence": "medium",
-      "status": "needs-product-resolution"
-    },
-    {
-      "item_code": "0980196944",
-      "store": "Sam's Club",
-      "receipt_name": "MM AA-48",
-      "display_name": "MM AA 48-count",
-      "paid_price": 17.98,
-      "unit_basis": "count",
-      "pack_units": 48,
-      "unit_price": 0.3746,
-      "pack_confidence": "medium",
-      "status": "needs-product-resolution"
-    },
-    {
-      "item_code": "0990295931",
-      "store": "Sam's Club",
-      "receipt_name": "QNUP 36M",
-      "display_name": "QNUP 36M",
-      "paid_price": 27.98,
-      "unit_basis": null,
-      "pack_units": null,
-      "unit_price": null,
-      "pack_confidence": "low",
-      "status": "needs-unit-resolution",
-      "note": "36M is preserved as printed; do not assume roll equivalence until the exact package is identified."
-    },
-    {
-      "item_code": "0980393081",
-      "store": "Sam's Club",
-      "receipt_name": "COKE MINI 3",
-      "display_name": "Coke Mini 3",
-      "paid_price": 17.28,
-      "unit_basis": null,
-      "pack_units": null,
-      "unit_price": null,
-      "pack_confidence": "low",
-      "status": "needs-unit-resolution"
-    },
-    {
-      "item_code": "0980315552",
-      "store": "Sam's Club",
-      "receipt_name": "GOGO APL AP",
-      "display_name": "GoGo apple item",
-      "paid_price": 15.98,
-      "unit_basis": null,
-      "pack_units": null,
-      "unit_price": null,
-      "pack_confidence": "low",
-      "status": "needs-unit-resolution"
-    },
-    {
-      "item_code": "0990393946",
-      "store": "Sam's Club",
-      "receipt_name": "DOVE",
-      "display_name": "Dove",
-      "paid_price": 12.48,
-      "regular_price": 16.48,
-      "instant_savings": 4.00,
-      "unit_basis": null,
-      "pack_units": null,
-      "unit_price": null,
-      "pack_confidence": "low",
-      "status": "needs-unit-resolution"
-    },
-    {
-      "item_code": "0990008786",
-      "store": "Sam's Club",
-      "receipt_name": "CREST PASTE",
-      "display_name": "Crest toothpaste",
-      "paid_price": 9.98,
-      "regular_price": 11.98,
-      "instant_savings": 2.00,
-      "unit_basis": null,
-      "pack_units": null,
-      "unit_price": null,
-      "pack_confidence": "low",
-      "status": "needs-unit-resolution"
     },
     {
       "item_code": "0980226016",
@@ -173,36 +48,185 @@
       "pack_units": 44,
       "unit_price": 0.1764,
       "pack_confidence": "web-confirmed",
+      "status": "normalized"
+    },
+    {
+      "item_code": "0990393946",
+      "store": "Sam's Club",
+      "receipt_name": "DOVE",
+      "display_name": "Dove Sensitive Skin Body Wash with Pump, 30.6 fl oz, 2 ct.",
+      "paid_price": 12.48,
+      "regular_price": 16.48,
+      "instant_savings": 4.00,
+      "unit_basis": "fluid-ounce",
+      "pack_units": 61.2,
+      "unit_price": 0.2039,
+      "pack_confidence": "web-confirmed",
+      "status": "normalized"
+    },
+    {
+      "item_code": "0990008786",
+      "store": "Sam's Club",
+      "receipt_name": "CREST PASTE",
+      "display_name": "Crest Complete + Scope Outlast Ultra Toothpaste, 6.3 oz, 5 pk.",
+      "paid_price": 9.98,
+      "regular_price": 11.98,
+      "instant_savings": 2.00,
+      "unit_basis": "ounce",
+      "pack_units": 31.5,
+      "unit_price": 0.3168,
+      "pack_confidence": "web-confirmed",
+      "status": "normalized"
+    },
+    {
+      "item_code": "0990295931",
+      "store": "Sam's Club",
+      "receipt_name": "QNUP 36M",
+      "display_name": "Quilted Northern Ultra Plush 3-Ply Toilet Paper, 36 Mega Rolls, 255 sheets/roll",
+      "paid_price": 27.98,
+      "unit_basis": "100-sheets",
+      "pack_units": 91.8,
+      "unit_price": 0.3048,
+      "pack_confidence": "web-confirmed",
       "status": "normalized",
-      "source_note": "Sam's current listing matches receipt regular price $9.76 and identifies 22 oz x 2 jars."
+      "roll_count": 36,
+      "sheets_per_roll": 255,
+      "total_sheets": 9180
+    },
+    {
+      "item_code": "0000561914",
+      "store": "Sam's Club",
+      "receipt_name": "MM WATER",
+      "display_name": "Member's Mark Purified Water, 16.9 fl oz, 40 pk.",
+      "paid_price": 4.28,
+      "unit_basis": "count",
+      "pack_units": 40,
+      "unit_price": 0.1070,
+      "pack_confidence": "web-confirmed",
+      "status": "normalized"
     },
     {
       "item_code": "0000211040",
       "store": "Sam's Club",
       "receipt_name": "BAKED BEANS",
-      "display_name": "Baked beans",
+      "display_name": "Bush's Original Baked Beans, 16.5 oz, 8 ct.",
       "paid_price": 9.98,
       "regular_price": 11.48,
       "instant_savings": 1.50,
-      "unit_basis": null,
-      "pack_units": null,
-      "unit_price": null,
-      "pack_confidence": "low",
-      "status": "needs-size-resolution"
+      "unit_basis": "ounce",
+      "pack_units": 132,
+      "unit_price": 0.0756,
+      "pack_confidence": "web-confirmed",
+      "status": "normalized"
+    },
+    {
+      "item_code": "0000712356",
+      "store": "Sam's Club",
+      "receipt_name": "NUTELLA 2PK",
+      "display_name": "Nutella Hazelnut Spread with Cocoa, 26.5 oz, 2 pk.",
+      "paid_price": 12.78,
+      "unit_basis": "ounce",
+      "pack_units": 53,
+      "unit_price": 0.2411,
+      "pack_confidence": "web-confirmed",
+      "status": "normalized"
+    },
+    {
+      "item_code": "0980315552",
+      "store": "Sam's Club",
+      "receipt_name": "GOGO APL AP",
+      "display_name": "GoGo squeeZ Applesauce Apple Apple, 3.2 oz, 32 ct.",
+      "paid_price": 15.98,
+      "unit_basis": "count",
+      "pack_units": 32,
+      "unit_price": 0.4994,
+      "pack_confidence": "web-confirmed",
+      "status": "normalized"
+    },
+    {
+      "item_code": "0990378241",
+      "store": "Sam's Club",
+      "receipt_name": "SCRUB MOM 6",
+      "display_name": "Scrub Mommy Sponges, Multiple Colors, 6 ct.",
+      "paid_price": 12.88,
+      "unit_basis": "count",
+      "pack_units": 6,
+      "unit_price": 2.1467,
+      "pack_confidence": "web-confirmed",
+      "status": "normalized"
+    },
+    {
+      "item_code": "0980196944",
+      "store": "Sam's Club",
+      "receipt_name": "MM AA-48",
+      "display_name": "Member's Mark AA Alkaline Batteries, 48 pk.",
+      "paid_price": 17.98,
+      "unit_basis": "count",
+      "pack_units": 48,
+      "unit_price": 0.3746,
+      "pack_confidence": "web-confirmed",
+      "status": "normalized"
+    },
+    {
+      "item_code": "0980196945",
+      "store": "Sam's Club",
+      "receipt_name": "MM AAA-48",
+      "display_name": "Member's Mark AAA Alkaline Batteries, 48 pk.",
+      "paid_price": 17.98,
+      "unit_basis": "count",
+      "pack_units": 48,
+      "unit_price": 0.3746,
+      "pack_confidence": "web-confirmed",
+      "status": "normalized"
+    },
+    {
+      "item_code": "0980393081",
+      "store": "Sam's Club",
+      "receipt_name": "COKE MINI 3",
+      "display_name": "Coca-Cola Mini Cans, 7.5 fl oz, 30 pk.",
+      "paid_price": 17.28,
+      "unit_basis": "count",
+      "pack_units": 30,
+      "unit_price": 0.5760,
+      "pack_confidence": "web-confirmed",
+      "status": "normalized",
+      "source_note": "Pack size resolved from current product listing; receipt price remains ground truth because current web price varied by location."
+    },
+    {
+      "item_code": "0990007818",
+      "store": "Sam's Club",
+      "receipt_name": "PER HR 20CT",
+      "display_name": "PER HR 20-count",
+      "paid_price": 14.88,
+      "unit_basis": "count",
+      "pack_units": 20,
+      "unit_price": 0.7440,
+      "pack_confidence": "high",
+      "status": "needs-product-resolution"
+    },
+    {
+      "item_code": "0990000533",
+      "store": "Sam's Club",
+      "receipt_name": "SHPTWLS12PK",
+      "display_name": "Shop towels 12-pack",
+      "paid_price": 22.64,
+      "unit_basis": "roll-or-pack-piece",
+      "pack_units": 12,
+      "unit_price": 1.8867,
+      "pack_confidence": "medium",
+      "status": "needs-product-resolution"
     }
   ],
   "cross_store_examples": [
     {
       "name": "Kraft Original Macaroni & Cheese Dinner, 18 pk.",
       "sams": {"price": 10.96, "units": 18, "unit_basis": "count", "unit_price": 0.6089},
-      "competitors": [],
-      "verdict": "waiting-for-same-basis-competitor-price"
+      "verdict": "compare-only-after-same-basis-reference"
     },
     {
       "name": "Rao's Homemade Marinara Sauce",
       "sams": {"price": 7.76, "units": 44, "unit_basis": "ounce", "unit_price": 0.1764},
-      "competitors": [],
-      "verdict": "waiting-for-same-basis-competitor-price"
+      "verdict": "compare-only-after-same-basis-reference"
     }
   ]
 }
