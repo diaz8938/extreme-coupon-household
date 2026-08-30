@@ -1,0 +1,87 @@
+{
+  "updated_at": "2026-08-30T03:25:00-05:00",
+  "policy": {
+    "online_reference_is_not_local_verified": true,
+    "local_receipt_price_is_ground_truth": true,
+    "auto_route_requires_local_verified_competitor_or_user_confirmation": true,
+    "same_unit_basis_required": true
+  },
+  "comparisons": [
+    {
+      "item_code": "0990393946",
+      "name": "Dove Sensitive Skin Body Wash",
+      "unit_basis": "fluid-ounce",
+      "sams": {"price": 12.48, "units": 61.2, "unit_price": 0.2039, "confidence": "local-receipt-verified"},
+      "references": [
+        {"store": "H-E-B", "price": 10.97, "units": 30.6, "unit_price": 0.3585, "match_quality": "same-product-line", "confidence": "current-online-reference"},
+        {"store": "Walmart", "price": 10.97, "units": 30.6, "unit_price": 0.3585, "match_quality": "same-product-line", "confidence": "current-online-reference"}
+      ]
+    },
+    {
+      "item_code": "0000712356",
+      "name": "Nutella Hazelnut Spread with Cocoa",
+      "unit_basis": "ounce",
+      "sams": {"price": 12.78, "units": 53, "unit_price": 0.2411, "confidence": "local-receipt-verified"},
+      "references": [
+        {"store": "H-E-B", "price": 9.84, "units": 26.5, "unit_price": 0.3713, "match_quality": "same-product", "confidence": "current-online-reference"},
+        {"store": "Walmart", "price": 9.84, "units": 26.5, "unit_price": 0.3713, "match_quality": "same-product", "confidence": "current-online-reference"}
+      ]
+    },
+    {
+      "item_code": "0980315552",
+      "name": "GoGo squeeZ Applesauce Apple Apple",
+      "unit_basis": "count",
+      "sams": {"price": 15.98, "units": 32, "unit_price": 0.4994, "confidence": "local-receipt-verified"},
+      "references": [
+        {"store": "Walmart", "price": 12.97, "units": 24, "unit_price": 0.5404, "match_quality": "same-product-line", "confidence": "current-online-reference"},
+        {"store": "H-E-B", "price": 7.97, "units": 12, "unit_price": 0.6642, "match_quality": "same-product-line", "confidence": "current-online-reference"}
+      ]
+    },
+    {
+      "item_code": "0000211040",
+      "name": "Bush's Original Baked Beans",
+      "unit_basis": "ounce",
+      "sams": {"price": 9.98, "units": 132, "unit_price": 0.0756, "confidence": "local-receipt-verified"},
+      "references": [
+        {"store": "H-E-B", "price": 2.77, "units": 28, "unit_price": 0.0989, "match_quality": "same-product", "confidence": "current-online-reference"}
+      ]
+    },
+    {
+      "item_code": "0990008786",
+      "name": "Crest Complete + Scope Outlast Toothpaste",
+      "unit_basis": "ounce",
+      "sams": {"price": 9.98, "units": 31.5, "unit_price": 0.3168, "confidence": "local-receipt-verified"},
+      "references": [
+        {"store": "H-E-B", "price": 7.49, "units": 10.8, "unit_price": 0.6935, "match_quality": "same-product-line", "confidence": "current-online-reference", "note": "H-E-B reference uses 5.4 oz tubes; Sam's receipt pack uses 6.3 oz tubes."}
+      ]
+    },
+    {
+      "item_code": "0000561914",
+      "name": "Purified Water 16.9 fl oz bottles",
+      "unit_basis": "count",
+      "sams": {"price": 4.28, "units": 40, "unit_price": 0.1070, "confidence": "local-receipt-verified"},
+      "references": [
+        {"store": "H-E-B", "price": 5.18, "units": 40, "unit_price": 0.1295, "match_quality": "substitute-only", "confidence": "current-online-reference", "note": "Hill Country Fare purified water"},
+        {"store": "Walmart", "price": 5.47, "units": 40, "unit_price": 0.1368, "match_quality": "substitute-only", "confidence": "current-online-reference", "note": "Great Value purified water"}
+      ]
+    },
+    {
+      "item_code": "0980393081",
+      "name": "Coca-Cola Mini Cans 7.5 fl oz",
+      "unit_basis": "count",
+      "sams": {"price": 17.28, "units": 30, "unit_price": 0.5760, "confidence": "local-receipt-verified"},
+      "references": [
+        {"store": "Walmart", "price": 5.97, "units": 10, "unit_price": 0.5970, "match_quality": "same-product", "confidence": "current-online-reference"}
+      ]
+    },
+    {
+      "item_code": "0990295931",
+      "name": "Quilted Northern Ultra Plush 3-Ply Toilet Paper",
+      "unit_basis": "100-sheets",
+      "sams": {"price": 27.98, "units": 91.8, "unit_price": 0.3048, "confidence": "local-receipt-verified", "note": "36 rolls x 255 sheets = 9,180 sheets"},
+      "references": [
+        {"store": "H-E-B", "price": 23.28, "units": 61.2, "unit_price": 0.3804, "match_quality": "same-product-line", "confidence": "current-online-reference", "note": "24 Mega Rolls x 255 sheets; no coupon assumed"}
+      ]
+    }
+  ]
+}
