@@ -1,0 +1,13 @@
+{
+  "name": "Extreme Coupon Household",
+  "short_name": "Extreme Coupon",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#07111f",
+  "theme_color": "#07111f",
+  "description": "Local-first household shopping, coupon, receipt, and store comparison optimizer.",
+  "icons": [
+    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
