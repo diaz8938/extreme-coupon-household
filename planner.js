@@ -2,7 +2,7 @@
   const $p = s => document.querySelector(s);
   const $$p = s => [...document.querySelectorAll(s)];
   const moneyP = n => n == null ? '—' : '$' + Number(n).toFixed(2);
-  const STORES = ['H-E-B','Walmart','Dollar General'];
+  const STORES = ['H-E-B','Walmart','Dollar General',"Sam's Club"];
   let catalog = [];
   let mode = 'extreme';
 
@@ -195,7 +195,7 @@
     if(!list.length){ $p('#planResult').innerHTML='<div class="empty">Add at least one item first.</div>'; return; }
     const allowSubs=$p('#allowSubs').checked;
     const stopPenalty=Math.max(0,Number($p('#stopPenalty').value)||0);
-    const maxStores=mode==='one'?1:mode==='balance'?2:3;
+    const maxStores=mode==='one'?1:mode==='balance'?2:STORES.length;
     const result=findBest(maxStores,list,allowSubs,stopPenalty);
     if(!result){ $p('#planResult').innerHTML='<div class="empty">No store combination can cover the verified items under these rules.</div>'; return; }
 
@@ -220,7 +220,7 @@
     const summaryNote=incomplete?'Partial total — unpriced items are not included.':'Complete for all items with current verified data.';
     const couponNote=unlinkedCoupons?`${unlinkedCoupons} unlinked clipped coupon${unlinkedCoupons===1?' is':'s are'} excluded from auto math.`:'All saved coupons used in auto math are explicitly linked.';
 
-    $p('#planResult').innerHTML=`<div class="resultBanner"><span class="tiny">${modeLabel.toUpperCase()} · ${result.stores.length} STORE${result.stores.length===1?'':'S'}</span><strong>${moneyP(result.total)}</strong><div class="note">Merchandise ${moneyP(result.raw)} · linked coupons -${moneyP(result.coupons)} · extra-store cost ${moneyP(result.penalty)}</div>${savings!=null?`<div class="impact">Save about ${moneyP(savings)} vs ${baselineName} on priced items.</div>`:''}</div><div class="note ${incomplete?'warn':''}">${summaryNote} ${couponNote} For safety, only the single highest-value linked coupon is auto-applied per product/store line until stacking rules are verified.</div>${storeBlocks}${unresolvedBlock}`;
+    $p('#planResult').innerHTML=`<div class="resultBanner"><span class="tiny">${modeLabel.toUpperCase()} · ${result.stores.length} STORE${result.stores.length===1?'':'S'}</span><strong>${moneyP(result.total)}</strong><div class="note">Merchandise ${moneyP(result.raw)} · linked coupons -${moneyP(result.coupons)} · extra-store cost ${moneyP(result.penalty)}</div>${savings!=null?`<div class="impact">Save about ${moneyP(savings)} vs ${baselineName} on priced items.</div>`:''}</div><div class="note ${incomplete?'warn':''}">${summaryNote} ${couponNote} Sam's Club prices must be normalized by pack size/unit before they can beat a smaller retail package. For safety, only the single highest-value linked coupon is auto-applied per product/store line until stacking rules are verified.</div>${storeBlocks}${unresolvedBlock}`;
   }
 
   function esc(s){ return String(s ?? '').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
