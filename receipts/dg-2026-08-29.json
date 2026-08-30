@@ -1,0 +1,17 @@
+{
+  "store":"Dollar General",
+  "store_number":"16310",
+  "address":"1500 S Bell St, San Angelo, TX 76905",
+  "date":"2026-08-29",
+  "total_paid":96.61,
+  "tax":6.96,
+  "total_savings":31.0,
+  "sale_savings":17.0,
+  "manufacturer_coupon_savings":14.0,
+  "confirmed_rules":[
+    "$10 off $30 receipt coupon applied",
+    "Crest/Oral-B $5 off 3 applied",
+    "Manufacturer coupons stacked with store promotions",
+    "'less promo' is allocated store-promotion savings"
+  ]
+}
