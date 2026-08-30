@@ -1,0 +1,19 @@
+{
+  "updated_at": "2026-08-29T22:45:00-05:00",
+  "policy": {
+    "receipt_purchase_is_not_proof_still_on_hand": true,
+    "seed_values_require_user_confirmation": true,
+    "default_low_stock_weeks": 2,
+    "default_target_weeks": 8
+  },
+  "items": [
+    {"product_id":"sams-kraft-mac-18","initial_packages":1,"source":"Sam's receipt 2026-08-28","confidence":"receipt-purchased-not-consumption-adjusted"},
+    {"product_id":"sams-uncrustables-grape-24","initial_packages":1,"source":"Sam's receipt 2026-08-28","confidence":"receipt-purchased-not-consumption-adjusted"},
+    {"product_id":"sams-raos-marinara-44oz","initial_packages":1,"source":"Sam's receipt 2026-08-28","confidence":"receipt-purchased-not-consumption-adjusted"},
+    {"product_id":"sams-bush-baked-beans-8","initial_packages":1,"source":"Sam's receipt 2026-08-28","confidence":"receipt-purchased-not-consumption-adjusted"},
+    {"product_id":"sams-dove-sensitive-2","initial_packages":1,"source":"Sam's receipt 2026-08-28","confidence":"receipt-purchased-not-consumption-adjusted"},
+    {"product_id":"sams-crest-scope-5","initial_packages":1,"source":"Sam's receipt 2026-08-28","confidence":"receipt-purchased-not-consumption-adjusted"},
+    {"product_id":"heb-tide-downy-105","initial_packages":1,"source":"H-E-B receipt 2026-08-29","confidence":"receipt-purchased-not-consumption-adjusted"},
+    {"product_id":"heb-johnsonville-italian-19","initial_packages":2,"source":"H-E-B receipt 2026-08-29","confidence":"receipt-purchased-not-consumption-adjusted"}
+  ]
+}
