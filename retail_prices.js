@@ -5,109 +5,142 @@
   const money=n=>Number.isFinite(Number(n))?'$'+Number(n).toFixed(2):'—';
   const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d));}catch{return d;}};
   const set=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+  const PRICE_API='https://extreme-coupon-price-api.floot.app/_api/price-lookup';
   const STORES=[
-    {name:'H-E-B',domain:'heb.com',url:q=>`https://www.heb.com/search?q=${encodeURIComponent(q)}`},
-    {name:'Dollar General',domain:'dollargeneral.com',url:q=>`https://www.dollargeneral.com/search?q=${encodeURIComponent(q)}`},
-    {name:"Sam's Club",domain:'samsclub.com',url:q=>`https://www.samsclub.com/s/${encodeURIComponent(q)}`}
+    {name:'H-E-B',url:q=>`https://www.heb.com/search?q=${encodeURIComponent(q)}`},
+    {name:'Walmart',url:q=>`https://www.walmart.com/search?q=${encodeURIComponent(q)}`},
+    {name:'Dollar General',url:q=>`https://www.dollargeneral.com/?q=${encodeURIComponent(q)}`},
+    {name:"Sam's Club",url:q=>`https://www.samsclub.com/search?q=${encodeURIComponent(q)}`}
   ];
-  const UPC_MIN_MS=10500, UPC_DAILY_MAX=95, OFFER_TTL_HOURS=12;
-  let activeCode='', activeTitle='', activeProductId='';
+  const STORE_CONTEXT={dgStore:'16310',hebStore:'734',samsClub:'4948'};
+  const AUTO_TTL_HOURS=6;
+  let activeCode='', activeIdentity=null, activeAuto=null, samsCatalog=[];
 
-  function usage(){
-    const today=new Date().toISOString().slice(0,10),u=get('ec_upcitemdbUsage',{date:today,count:0,last_at:0});
-    return u.date===today?u:{date:today,count:0,last_at:0};
-  }
-
-  async function fetchOffers(code){
-    const cache=get('ec_retailOfferCache',{}),c=cache[code];
-    if(c && Date.now()-new Date(c.cached_at||0).getTime()<OFFER_TTL_HOURS*3600000) return c;
-    const u=usage(),now=Date.now();
-    if(u.count>=UPC_DAILY_MAX) return {offers:[],error:'UPC offer lookup daily limit reached.'};
-    const wait=UPC_MIN_MS-(now-Number(u.last_at||0));
-    if(wait>0) await new Promise(r=>setTimeout(r,wait));
-    const v=usage();v.last_at=Date.now();v.count+=1;set('ec_upcitemdbUsage',v);
-    try{
-      const r=await fetch(`https://api.upcitemdb.com/prod/trial/lookup?upc=${encodeURIComponent(code)}`,{headers:{Accept:'application/json'}});
-      if(!r.ok) return {offers:[],error:`UPC offer lookup returned ${r.status}.`};
-      const j=await r.json(),item=j?.items?.[0];
-      const out={title:item?.title||'',brand:item?.brand||'',offers:(item?.offers||[]).map(o=>({merchant:o.merchant||'',domain:o.domain||'',title:o.title||'',price:Number(o.price),list_price:Number(o.list_price)||null,availability:o.availability||'',link:o.link||'',updated_t:Number(o.updated_t)||0})).filter(o=>o.price>0),cached_at:new Date().toISOString()};
-      cache[code]=out;set('ec_retailOfferCache',cache);return out;
-    }catch(e){return {offers:[],error:'Retail offer lookup unavailable: '+e.message};}
-  }
-
-  function normalize(s){return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();}
-  function titleFor(code){
-    const ext=get('ec_externalBarcodeCatalog',{})[code];
-    if(ext?.title)return ext.title;
-    const map=get('ec_barcodeMap',{})[code];
-    if(map?.name)return map.name;
-    const h=get('ec_scanHistory',[]).find(x=>x.code===code&&x.name);
-    return h?.name||code;
-  }
+  function normalize(s){return String(s||'').toLowerCase().replace(/[^a-z0-9.]+/g,' ').replace(/\s+/g,' ').trim();}
   function productIdFor(code){return get('ec_barcodeMap',{})[code]?.product_id||`barcode_${code}`;}
+  function identityFor(code){
+    const ext=get('ec_externalBarcodeCatalog',{})[code]||{};
+    const map=get('ec_barcodeMap',{})[code]||{};
+    const h=get('ec_scanHistory',[]).find(x=>x.code===code&&x.name)||{};
+    return {title:ext.title||map.name||h.name||code,brand:ext.brand||'',size:ext.size||map.size||''};
+  }
+
+  function unitSig(value){
+    const t=normalize(value),m=t.match(/(\d+(?:\.\d+)?)\s*(fl\s*oz|floz|oz|ounce|ounces|lb|lbs|pound|pounds|ct|count|pk|pack|bottle|can|pouch|roll)s?\b/);
+    if(!m)return null;
+    let amount=Number(m[1]),unit=m[2].replace(/\s+/g,'');
+    if(['ounce','ounces'].includes(unit))unit='oz';
+    if(['lb','lbs','pound','pounds'].includes(unit)){amount*=16;unit='oz';}
+    if(['count','pk','pack'].includes(unit))unit='count';
+    if(unit==='floz')unit='fl_oz';
+    return{amount,unit};
+  }
+  function basisName(b){return b==='fluid-ounce'?'fl_oz':b==='ounce'?'oz':b==='count'?'count':b==='100-sheets'?'100_sheets':b;}
+  function displayUnit(u){return u==='fl_oz'?'fl oz':u==='100_sheets'?'100 sheets':u||'unit';}
 
   function localPrice(code,store){
     const verified=get('ec_retailLocalPrices',{})[code]?.[store];
-    if(verified?.price>0) return {...verified,kind:'local-verified'};
+    if(verified?.price>0)return{...verified,kind:'local-verified'};
     const shelf=get('ec_barcodeShelfChecks',{})[code];
     if(shelf?.store===store&&shelf?.price>0)return{price:Number(shelf.price),at:shelf.confirmed_at,kind:'local-verified',source:'barcode shelf confirmation'};
     const pid=productIdFor(code),obs=get('ec_priceObservations',[]).filter(x=>x.store===store&&Number(x.price)>0&&(x.barcode===code||x.product_id===pid));
     if(obs.length){obs.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));return{price:Number(obs[0].price),at:obs[0].date,kind:'local-history',source:obs[0].source||'price history'};}
     return null;
   }
+  function ageLabel(t){if(!t)return'age unknown';const ms=(String(t).length<=10?Number(t)*1000:new Date(t).getTime()),d=Math.max(0,(Date.now()-ms)/86400000);return d<1?'today':d<2?'1 day old':`${Math.floor(d)} days old`;}
 
-  function bestMerchantOffer(all,store){
-    const cfg=STORES.find(s=>s.name===store);if(!cfg)return null;
-    const matches=(all||[]).filter(o=>String(o.domain).toLowerCase().includes(cfg.domain));
-    if(!matches.length)return null;
-    matches.sort((a,b)=>a.price-b.price);return matches[0];
+  function familyScore(identity,item){
+    const stop=new Set(['with','and','the','for','of','pack','pk','ct','count','oz','ounce','fl','fluid']);
+    const q=normalize(`${identity.brand} ${identity.title}`).split(' ').filter(x=>x.length>1&&!stop.has(x));
+    const t=normalize(item.display_name||item.receipt_name||'');
+    if(!q.length)return 0;
+    let score=q.filter(x=>t.includes(x)).length/q.length;
+    const variants=['peanut','organic','dark','mini','grape','strawberry','sensitive','original','vanilla'];
+    for(const v of variants)if(normalize(identity.title).includes(v)!==t.includes(v))score-=.3;
+    return Math.max(0,score);
+  }
+  function samsFamily(identity){
+    const matches=samsCatalog.filter(x=>x.status==='normalized'&&Number(x.paid_price)>0).map(x=>({item:x,score:familyScore(identity,x)})).sort((a,b)=>b.score-a.score);
+    const best=matches[0];return best&&best.score>=.62?best.item:null;
   }
 
-  function ageLabel(t){
-    if(!t)return'age unknown';
-    const ms=(String(t).length<=10?Number(t)*1000:new Date(t).getTime()),days=Math.max(0,(Date.now()-ms)/86400000);
-    return days<1?'today':days<2?'1 day old':`${Math.floor(days)} days old`;
+  async function fetchAuto(code,identity){
+    const cache=get('ec_autoRetailPriceCache',{}),key=`${code}|${identity.title}|${identity.size}`,c=cache[key];
+    if(c&&Date.now()-new Date(c.cached_at||0).getTime()<AUTO_TTL_HOURS*3600000)return c.data;
+    const qs=new URLSearchParams({barcode:code,name:identity.title,brand:identity.brand,size:identity.size,...STORE_CONTEXT});
+    const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),22000);
+    try{
+      const r=await fetch(`${PRICE_API}?${qs}`,{headers:{Accept:'application/json'},signal:ctrl.signal});
+      if(!r.ok)throw new Error(`price service ${r.status}`);
+      const data=await r.json();cache[key]={cached_at:new Date().toISOString(),data};set('ec_autoRetailPriceCache',cache);return data;
+    }finally{clearTimeout(timer);}
   }
 
-  function statusBox(store,local,offer){
-    if(local?.kind==='local-verified')return{price:local.price,label:'LOCAL VERIFIED',cls:'pGood',detail:`${local.source||'confirmed by you'} · ${ageLabel(local.at)}`,canWin:true};
-    if(local?.kind==='local-history')return{price:local.price,label:'LOCAL HISTORY',cls:'pWarn',detail:`${local.source||'receipt/history'} · ${ageLabel(local.at)}`,canWin:false};
-    if(offer)return{price:offer.price,label:'ONLINE OFFER',cls:'pWarn',detail:`${offer.merchant||store} · ${ageLabel(offer.updated_t)}`,canWin:false};
-    return{price:null,label:'NO MATCH YET',cls:'pMute',detail:store==="Sam's Club"?'Same UPC not found; warehouse pack may use a different barcode.':'Open retailer search or confirm a local price.',canWin:false};
+  function autoFor(data,store){return data?.stores?.find(x=>x.store===store)||null;}
+  function statusBox(store,local,auto,samsPack,identity){
+    const qUnit=unitSig(identity.size);
+    if(local?.kind==='local-verified')return{price:Number(local.price),label:'LOCAL VERIFIED',cls:'pGood',detail:`${local.source||'confirmed by you'} · ${ageLabel(local.at)}`,strict:true,lead:true,unit:qUnit?{basis:qUnit.unit,price:Number(local.price)/qUnit.amount}:null};
+    if(auto?.price>0){
+      const different=auto.matchQuality==='same_product_different_size';
+      const matched=unitSig(auto.matchedSize||auto.productName||'');
+      const unit=matched?{basis:matched.unit,price:Number(auto.price)/matched.amount}:qUnit&&!different?{basis:qUnit.unit,price:Number(auto.price)/qUnit.amount}:null;
+      const label=different?'DIFFERENT PACK':auto.confidence==='current_web_not_local'?'CURRENT WEB':'AUTO FETCHED';
+      const detail=`${auto.productName||'matched product'}${auto.matchedSize?` · ${auto.matchedSize}`:''}${auto.matchScore?` · match ${auto.matchScore}%`:''} · double-check`;
+      return{price:Number(auto.price),label,cls:'pWarn',detail,strict:false,lead:!different,unit,auto};
+    }
+    if(store==="Sam's Club"&&samsPack){
+      const basis=basisName(samsPack.unit_basis),up=Number(samsPack.unit_price);
+      return{price:Number(samsPack.paid_price),label:'LOCAL RECEIPT PACK',cls:'pWarn',detail:`${samsPack.display_name} · recent local receipt · normalized`,strict:false,lead:false,unit:up>0?{basis,price:up}:null,samsPack};
+    }
+    if(local?.kind==='local-history')return{price:Number(local.price),label:'LOCAL HISTORY',cls:'pWarn',detail:`${local.source||'receipt/history'} · ${ageLabel(local.at)}`,strict:false,lead:false,unit:qUnit?{basis:qUnit.unit,price:Number(local.price)/qUnit.amount}:null};
+    return{price:null,label:'NO SAFE PRICE',cls:'pMute',detail:store==="Sam's Club"?'No safe current exact price; a different warehouse pack may exist.':'No fresh validated match returned.',strict:false,lead:false,unit:null};
   }
 
-  function winner(rows){
-    const verified=rows.filter(x=>x.box.canWin&&Number(x.box.price)>0).sort((a,b)=>a.box.price-b.box.price);
-    return verified.length>=2?verified[0]:null;
+  function choose(rows,identity){
+    const strict=rows.filter(r=>r.box.strict&&r.box.price>0).sort((a,b)=>a.box.price-b.box.price);
+    if(strict.length>=2)return{kind:'strict',row:strict[0]};
+    const units=rows.filter(r=>r.box.unit&&r.box.unit.price>0);
+    const q=unitSig(identity.size),same=q?units.filter(r=>r.box.unit.basis===q.unit):[];
+    if(same.length>=2){same.sort((a,b)=>a.box.unit.price-b.box.unit.price);return{kind:'unit',row:same[0]};}
+    const leads=rows.filter(r=>r.box.lead&&r.box.price>0).sort((a,b)=>a.box.price-b.box.price);
+    return leads.length>=2?{kind:'lead',row:leads[0]}:null;
   }
 
-  function render(code,title,offers,error=''){
+  function render(code,identity,data,error=''){
     const host=$('#retailPriceMatch');if(!host)return;
-    const rows=STORES.map(s=>{const local=localPrice(code,s.name),offer=bestMerchantOffer(offers,s.name);return{store:s,local,offer,box:statusBox(s.name,local,offer)};});
-    const win=winner(rows),query=[title,code].filter(Boolean).join(' ');
-    host.innerHTML=`<div class="card" style="margin-top:10px"><h2>DG · H-E-B · Sam's real-price match</h2><div class="note">Local confirmed prices are allowed to win. Web merchant offers are useful leads but do not override a local shelf/receipt price because retailer pricing can vary by location and fulfillment method.</div>${win?`<div class="resultBanner" style="margin-top:9px"><strong>${esc(win.store.name)} ${money(win.box.price)}</strong><span>cheapest across currently confirmed local prices</span></div>`:''}<div class="storeGrid">${rows.map(r=>`<div class="storeBox ${win?.store.name===r.store.name?'win':''}"><div class="storeName">${esc(r.store.name)}</div><div class="storePrice">${money(r.box.price)}</div><span class="pill ${r.box.cls}">${r.box.label}</span><small>${esc(r.box.detail)}</small></div>`).join('')}</div>${error?`<div class="tiny" style="margin-top:7px">${esc(error)}</div>`:''}<div style="margin-top:10px">${rows.map(r=>`<div class="compare"><div class="compareTop"><div><b>${esc(r.store.name)}</b><div class="note">${r.offer?`${esc(r.offer.title||title)} · merchant offer ${money(r.offer.price)}`:'No exact-UPC merchant offer cached.'}</div></div><a class="btn secondary" style="text-decoration:none;padding:8px" target="_blank" rel="noopener" href="${esc(r.store.url(query))}">Open live search</a></div><div class="formRow"><input data-rp-price="${esc(r.store.name)}" type="number" min="0" step="0.01" placeholder="Confirm local price"><button class="btn primary" data-rp-save="${esc(r.store.name)}">Save local price</button></div></div>`).join('')}</div><div class="note" style="margin-top:9px"><b>Important:</b> exact UPC comparisons are safe. Sam's bulk/equivalent packs often use a different UPC, so those need pack-size normalization before the app can call them cheaper.</div></div>`;
-    host.querySelectorAll('[data-rp-save]').forEach(b=>b.onclick=()=>saveLocal(code,b.dataset.rpSave,title,offers));
+    const pack=samsFamily(identity);
+    const rows=STORES.map(store=>{const local=localPrice(code,store.name),auto=autoFor(data,store.name),box=statusBox(store.name,local,auto,pack,identity);return{store,local,auto,box};});
+    const pick=choose(rows,identity),query=[identity.brand,identity.title,identity.size].filter(Boolean).join(' ');
+    let banner='';
+    if(pick?.kind==='strict')banner=`<div class="resultBanner" style="margin-top:9px"><strong>${esc(pick.row.store.name)} ${money(pick.row.box.price)}</strong><span>cheapest across confirmed local prices</span></div>`;
+    else if(pick?.kind==='unit')banner=`<div class="resultBanner" style="margin-top:9px"><strong>${esc(pick.row.store.name)} ${money(pick.row.box.unit.price)}/${esc(displayUnit(pick.row.box.unit.basis))}</strong><span>best normalized price lead · double-check before purchase</span></div>`;
+    else if(pick?.kind==='lead')banner=`<div class="resultBanner" style="margin-top:9px"><strong>${esc(pick.row.store.name)} ${money(pick.row.box.price)}</strong><span>best same-package web/local lead · double-check</span></div>`;
+    host.innerHTML=`<div class="card" style="margin-top:10px"><h2>H-E-B · Walmart · DG · Sam's price match</h2><div class="note">The resolver uses UPC first, then brand + product name + exact size. Fresh web matches are imported automatically; your confirmed local shelf/receipt price always outranks them.</div>${banner}<div class="storeGrid">${rows.map(r=>`<div class="storeBox ${pick?.row.store.name===r.store.name?'win':''}"><div class="storeName">${esc(r.store.name)}</div><div class="storePrice">${money(r.box.price)}</div><span class="pill ${r.box.cls}">${esc(r.box.label)}</span>${r.box.unit?`<small>${money(r.box.unit.price)} / ${esc(displayUnit(r.box.unit.basis))}</small>`:''}<small>${esc(r.box.detail)}</small></div>`).join('')}</div>${error?`<div class="tiny" style="margin-top:7px">${esc(error)}</div>`:''}<div style="margin-top:10px">${rows.map(r=>{const live=r.auto?.sourceUrl||r.store.url(query);const prefill=r.auto?.price>0?Number(r.auto.price).toFixed(2):'';return`<div class="compare"><div class="compareTop"><div><b>${esc(r.store.name)}</b><div class="note">${r.auto?.productName?`${esc(r.auto.productName)}${r.auto.matchedSize?` · ${esc(r.auto.matchedSize)}`:''}`:r.box.samsPack?esc(r.box.samsPack.display_name):'No validated auto-match yet.'}</div></div><a class="btn secondary" style="text-decoration:none;padding:8px" target="_blank" rel="noopener" href="${esc(live)}">Double-check live</a></div><div class="formRow"><input data-rp-price="${esc(r.store.name)}" type="number" min="0" step="0.01" placeholder="Confirm local price" value="${esc(prefill)}"><button class="btn primary" data-rp-save="${esc(r.store.name)}">Confirm local price</button></div></div>`}).join('')}</div><div class="note" style="margin-top:9px"><b>Rule:</b> different-size warehouse packs only compete by normalized unit price. A $12 bulk pack never beats a $5 jar just because its per-unit rate is lower unless the quantity actually makes sense for your plan.</div></div>`;
+    host.querySelectorAll('[data-rp-save]').forEach(b=>b.onclick=()=>saveLocal(code,b.dataset.rpSave,identity,data));
   }
 
-  function saveLocal(code,store,title,offers){
+  function saveLocal(code,store,identity,data){
     const input=document.querySelector(`[data-rp-price="${CSS.escape(store)}"]`),price=Number(input?.value);if(!(price>0)){alert('Enter the current local price.');return;}
-    const all=get('ec_retailLocalPrices',{});all[code]=all[code]||{};all[code][store]={price,at:new Date().toISOString(),source:'scan price confirmation',title};set('ec_retailLocalPrices',all);
-    const obs=get('ec_priceObservations',[]);obs.unshift({product_id:productIdFor(code),name:title,barcode:code,price,store,date:new Date().toISOString().slice(0,10),source:'scan local retail price'});set('ec_priceObservations',obs.slice(0,1000));render(code,title,offers);
+    const all=get('ec_retailLocalPrices',{});all[code]=all[code]||{};all[code][store]={price,at:new Date().toISOString(),source:'scan double-confirmation',title:identity.title};set('ec_retailLocalPrices',all);
+    const obs=get('ec_priceObservations',[]);obs.unshift({product_id:productIdFor(code),name:identity.title,barcode:code,price,store,date:new Date().toISOString().slice(0,10),source:'scan double-confirmed local price'});set('ec_priceObservations',obs.slice(0,1000));render(code,identity,data);
   }
 
   async function attach(code){
     const root=$('#scanResult');if(!root||!code)return;
-    let host=$('#retailPriceMatch');if(!host){host=document.createElement('div');host.id='retailPriceMatch';root.appendChild(host);}host.innerHTML='<div class="card"><div class="note">Checking H-E-B, Dollar General and Sam\'s merchant offers…</div></div>';
-    activeCode=code;activeTitle=titleFor(code);activeProductId=productIdFor(code);
-    const data=await fetchOffers(code);if(activeCode!==code)return;render(code,activeTitle,data.offers||[],data.error||'');
+    let host=$('#retailPriceMatch');if(!host){host=document.createElement('div');host.id='retailPriceMatch';root.appendChild(host);}host.innerHTML='<div class="card"><div class="note">Resolving UPC → name + brand + size → retailer product pages…</div></div>';
+    activeCode=code;activeIdentity=identityFor(code);
+    try{const data=await fetchAuto(code,activeIdentity);if(activeCode!==code)return;activeAuto=data;render(code,activeIdentity,data);}catch(e){if(activeCode!==code)return;render(code,activeIdentity,null,e?.name==='AbortError'?'Price lookup timed out. Double-check links still work.':`Auto price lookup unavailable: ${e?.message||e}`);}
   }
 
   function observe(){
     const root=$('#scanResult');if(!root){setTimeout(observe,400);return;}
-    let last='';const run=()=>{const code=digits($('#scanManual')?.value);if(code.length>=6&&code!==last){last=code;setTimeout(()=>attach(code),150);}};
+    let last='';const run=()=>{const code=digits($('#scanManual')?.value);if(code.length>=6&&code!==last){last=code;setTimeout(()=>attach(code),220);}};
     new MutationObserver(run).observe(root,{childList:true,subtree:true});$('#scanManual')?.addEventListener('change',run);run();
   }
 
-  function start(){observe();const sub=document.querySelector('.head .sub');if(sub)sub.textContent='Household optimizer v1.5';}
+  async function start(){
+    try{samsCatalog=(await fetch('./data/unit_catalog.json').then(r=>r.json())).items||[];}catch{samsCatalog=[];}
+    observe();const sub=document.querySelector('.head .sub');if(sub)sub.textContent='Household optimizer v1.6';
+  }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(start,1200));else setTimeout(start,1200);
 })();
