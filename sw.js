@@ -1,10 +1,11 @@
-const CACHE='extreme-coupon-v13-barcode';
-const CORE=['./','./index.html','./app.js','./planner.js','./bulk.js','./stockup.js','./inventory.js','./receipt_v12.js','./barcode.js','./manifest.webmanifest','./icon.svg','./data/household.json','./data/comparisons.json','./data/coupons.json','./data/unit_catalog.json','./data/unit_competitors.json','./data/planner_bulk.json','./data/stockup_seed.json','./data/inventory_seed.json','./data/receipt_match_catalog.json','./receipts/heb-2026-08-29.json','./receipts/dg-2026-08-29.json','./receipts/sams-2026-08-28.json'];
+const CACHE='extreme-coupon-v14-barcode-db';
+const CORE=['./','./index.html','./app.js','./planner.js','./bulk.js','./stockup.js','./inventory.js','./receipt_v12.js','./barcode.js','./barcode_db.js','./manifest.webmanifest','./icon.svg','./data/household.json','./data/comparisons.json','./data/coupons.json','./data/unit_catalog.json','./data/unit_competitors.json','./data/planner_bulk.json','./data/stockup_seed.json','./data/inventory_seed.json','./data/receipt_match_catalog.json','./receipts/heb-2026-08-29.json','./receipts/dg-2026-08-29.json','./receipts/sams-2026-08-28.json'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 function injectModules(html){
   if(!html.includes('receipt_v12.js')) html=html.replace('</body>','<script src="./receipt_v12.js"></script></body>');
   if(!html.includes('barcode.js')) html=html.replace('</body>','<script src="./barcode.js"></script></body>');
+  if(!html.includes('barcode_db.js')) html=html.replace('</body>','<script src="./barcode_db.js"></script></body>');
   return html;
 }
 async function page(response){const text=injectModules(await response.text()),headers=new Headers(response.headers);headers.delete('content-length');headers.set('content-type','text/html; charset=utf-8');return new Response(text,{status:response.status,statusText:response.statusText,headers});}
