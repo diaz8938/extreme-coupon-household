@@ -1,6 +1,6 @@
 (() => {
   const $=s=>document.querySelector(s);
-  const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt',"'":'&#39;','"':'&quot;'}[c]));
+  const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   const digits=s=>String(s||'').replace(/\D/g,'');
   const money=n=>Number.isFinite(Number(n))?'$'+Number(n).toFixed(2):'—';
   const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d));}catch{return d;}};
@@ -86,7 +86,7 @@
     if(force)qs.set('_retry',String(Date.now()));
     const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),LOOKUP_TIMEOUT_MS);
     try{
-      const r=await fetch(`${PRICE_API}?${qs}`,{headers:{Accept:'application/json','Cache-Control':'no-cache'},cache:'no-store',signal:ctrl.signal});
+      const r=await fetch(`${PRICE_API}?${qs}`,{headers:{Accept:'application/json'},cache:'no-store',signal:ctrl.signal});
       if(!r.ok)throw new Error(`price service ${r.status}`);
       const data=await r.json();cache[key]={cached_at:new Date().toISOString(),data};set(AUTO_CACHE_KEY,cache);return data;
     }finally{clearTimeout(timer);}
