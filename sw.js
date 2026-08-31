@@ -1,4 +1,4 @@
-const CACHE='extreme-coupon-v16-name-size-prices';
+const CACHE='extreme-coupon-v16b-name-size-prices';
 const CORE=['./','./index.html','./app.js','./planner.js','./bulk.js','./stockup.js','./inventory.js','./receipt_v12.js','./barcode.js','./barcode_db.js','./retail_prices.js','./manifest.webmanifest','./icon.svg','./data/household.json','./data/comparisons.json','./data/coupons.json','./data/unit_catalog.json','./data/unit_competitors.json','./data/planner_bulk.json','./data/stockup_seed.json','./data/inventory_seed.json','./data/receipt_match_catalog.json','./receipts/heb-2026-08-29.json','./receipts/dg-2026-08-29.json','./receipts/sams-2026-08-28.json'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
